@@ -67,8 +67,11 @@
 
 
     <div class="right">
-        <a href="/logout" class="uitlog">Logout</a>
-        <a href="/login" class="inlog">Log In</a>
+        {% if app.user %}
+            <a href="/logout" class="logout">Logout</a>
+        {% else %}
+            <a href="/login" class="login">Log In</a>
+        {% endif %}
     </div>
 </nav>
 

@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Form/RegistrationFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/doctrine.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/doctrine.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Employees.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Measurement.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Measurement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,11 +182,30 @@
       <updated>1685307029127</updated>
       <workItem from="1685307030491" duration="852000" />
       <workItem from="1685307912234" duration="5395000" />
-      <workItem from="1685356952365" duration="6584000" />
+      <workItem from="1685356952365" duration="8418000" />
     </task>
+    <task id="LOCAL-00001" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
+      <created>1685365334141</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685365334142</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
+      <created>1685365381272</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685365381272</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Het inlogsysteem en registersysteem zijn geïmplementeerd." />
+    <option name="LAST_COMMIT_MESSAGE" value="Het inlogsysteem en registersysteem zijn geïmplementeerd." />
   </component>
 </project>

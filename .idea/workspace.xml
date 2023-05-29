@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
+    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="navbar aangepast">
+      <change beforePath="$PROJECT_DIR$/.idea/Alahli.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Alahli.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/header.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,6 +176,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Production\public" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -182,7 +191,7 @@
       <updated>1685307029127</updated>
       <workItem from="1685307030491" duration="852000" />
       <workItem from="1685307912234" duration="5395000" />
-      <workItem from="1685356952365" duration="8418000" />
+      <workItem from="1685356952365" duration="11774000" />
     </task>
     <task id="LOCAL-00001" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
       <created>1685365334141</created>
@@ -198,7 +207,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685365381272</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="navbar aangepast">
+      <created>1685370978484</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685370978484</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +222,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Het inlogsysteem en registersysteem zijn geïmplementeerd." />
-    <option name="LAST_COMMIT_MESSAGE" value="Het inlogsysteem en registersysteem zijn geïmplementeerd." />
+    <MESSAGE value="navbar aangepast" />
+    <option name="LAST_COMMIT_MESSAGE" value="navbar aangepast" />
   </component>
 </project>

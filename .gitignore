@@ -18,3 +18,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+.idea/AlAhali-Project-Periode4.iml
+.idea/modules.xml
+.idea/php.xml
+.idea/vcs.xml

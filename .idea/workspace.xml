@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling">
-      <change beforePath="$PROJECT_DIR$/.idea/Alahli.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Alahli.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" afterDir="false" />
-    </list>
+    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -194,7 +189,7 @@
       <updated>1685307029127</updated>
       <workItem from="1685307030491" duration="852000" />
       <workItem from="1685307912234" duration="5395000" />
-      <workItem from="1685356952365" duration="16198000" />
+      <workItem from="1685356952365" duration="16714000" />
     </task>
     <task id="LOCAL-00001" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
       <created>1685365334141</created>
@@ -231,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685378868785</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="styling">
+      <created>1685380035256</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685380035256</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

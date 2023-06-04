@@ -1,19 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/header.css">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <style>
+        /* Set background color of body to white and font color to black */
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        /* Style the navigation bar */
+        nav {
+            background-color: #000000;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        nav li {
+            margin: 0 10px;
+            font-size: 20px; /* Make the font size bigger for the navigation links */
+        }
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+        }
+        .inlog, .uitlog {
+            font-size: 20px; /* Make the font size bigger for the "Inlog" and "Uitlog" buttons */
+            margin: 0 10px;
+        }
+        .right {
+            margin-left: auto; /* Align the "Inlog" and "Uitlog" buttons to the right */
+        }
+
+        .navPadding {
+            height: 1px;
+            width: 1px;
+            padding-bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/registration">Weather data</a></li>
+        <li><a href="/registerExam">Historical Data</a></li>
+        <li><a href="/showStudentData">Add new user</a></li>
+    </ul>
+
+
+    <div class="right">
+        {% if app.user %}
+            <a href="/logout" class="logout">Logout</a>
+        {% else %}
+            <a href="/login" class="login">Log In</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
 </html>

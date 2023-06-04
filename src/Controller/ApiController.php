@@ -2,17 +2,32 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController
 {
     #[Route('/api', name: 'app_a_p_i')]
-    public function index(): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $token = 1;
-        $json = file_get_contents('http://localhost:8000/api/'.$token);
-        return new Response($json);
-    }
-}
+        // Create a stream
+        $opts = [
+            "http" => [
+                'header' => "endpoint-token: 1",
+            ]
+        ];
+
+        // DOCS: https://www.php.net/manual/en/function.stream-context-create.php
+        $context = stream_context_create($opts);
+
+        // Open the file using the HTTP headers set above
+        // DOCS: https://www.php.net/manual/en/function.file-get-contents.php
+        $token = "1";
+        $user_id = "1";
+        $contract_id = "1";
+        $file = file_get_contents('http://localhost:8080/api/'.$user_id."/".$contract_id, false, $context);
+        return new Response($file);
+}}

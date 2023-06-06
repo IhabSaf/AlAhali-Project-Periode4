@@ -14,9 +14,10 @@ class ApiController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create a stream
+        $token = "1";
         $opts = [
             "http" => [
-                'header' => "endpoint-token: 1",
+                'header' => "endpoint-token: ".$token,
             ]
         ];
 
@@ -25,9 +26,8 @@ class ApiController extends AbstractController
 
         // Open the file using the HTTP headers set above
         // DOCS: https://www.php.net/manual/en/function.file-get-contents.php
-        $token = "1";
         $user_id = "1";
         $contract_id = "1";
         $file = file_get_contents('http://localhost:8080/api/'.$user_id."/".$contract_id, false, $context);
-        return new Response($file);
+        return new Response(json_decode($file));
 }}

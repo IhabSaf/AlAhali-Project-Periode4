@@ -29,5 +29,5 @@ class ApiController extends AbstractController
         $user_id = "1";
         $contract_id = "1";
         $file = file_get_contents('http://localhost:8080/api/'.$user_id."/".$contract_id, false, $context);
-        return new Response(json_decode($file));
+        return new Response($file);
 }}

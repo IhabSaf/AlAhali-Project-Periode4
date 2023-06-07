@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling" />
+    <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/index.html.twig" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -161,6 +164,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/ProjectIWA&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -189,7 +193,10 @@
       <updated>1685307029127</updated>
       <workItem from="1685307030491" duration="852000" />
       <workItem from="1685307912234" duration="5395000" />
-      <workItem from="1685356952365" duration="16714000" />
+      <workItem from="1685356952365" duration="20027000" />
+      <workItem from="1685441727215" duration="2724000" />
+      <workItem from="1685525755756" duration="2643000" />
+      <workItem from="1685703263720" duration="536000" />
     </task>
     <task id="LOCAL-00001" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
       <created>1685365334141</created>
@@ -233,7 +240,21 @@
       <option name="project" value="LOCAL" />
       <updated>1685380035256</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="styling">
+      <created>1685380526750</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685380526750</updated>
+    </task>
+    <task id="LOCAL-00008" summary="styling">
+      <created>1685380602167</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685380602167</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

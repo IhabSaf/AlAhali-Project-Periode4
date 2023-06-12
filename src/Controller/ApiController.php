@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Measurement;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +23,44 @@ class ApiController extends AbstractController
             ]
         ];
 
-        // DOCS: https://www.php.net/manual/en/function.stream-context-create.php
+
         $context = stream_context_create($opts);
 
-        // Open the file using the HTTP headers set above
-        // DOCS: https://www.php.net/manual/en/function.file-get-contents.php
+
         $user_id = "1";
         $contract_id = "1";
-        $file = file_get_contents('http://localhost:8080/api/'.$user_id."/".$contract_id, false, $context);
-        return new Response($file);
-}}
+        $apiUrl = 'http://localhost:8000/api/'.$user_id.'/'.$contract_id;
+
+        //verwachte aankomst tijd van de data.
+        $interval = 5;
+        while (true) {
+            set_time_limit(60);
+
+            // ophaal de data van de api
+            $file = file_get_contents($apiUrl, false, $context);
+            $data = json_decode($file, true);
+
+            // tijd van de api en convert meteen
+            $timestamp = new DateTime($data['timestamp']);
+
+            foreach ($data as $key => $measurementData) {
+                if ($key !== 'timestamp') {
+                    $measurement = new Measurement();
+                    $measurement->setTimestamp($timestamp);
+                    $measurement->setStationName($measurementData[0]);
+                    $measurement->setLongitude(2.316);
+                    $measurement->setLatitude(96.623);
+                    $measurement->setStp($measurementData[1][0]);
+                    $measurement->setCldc($measurementData[1][1]);
+                    $entityManager->persist($measurement);
+
+                }
+            }
+            $entityManager->flush();
+
+
+            // wacht totdat er nieuwe data binnen komt
+            sleep($interval);
+        }
+
+    }}

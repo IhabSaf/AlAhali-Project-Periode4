@@ -63,5 +63,63 @@ class Measurement
      */
     private $cldc;
 
+    /**
+     * @param int $measurementId
+     */
+    public function setMeasurementId(int $measurementId): void
+    {
+        $this->measurementId = $measurementId;
+    }
+
+    /**
+     * @param string $stationName
+     */
+    public function setStationName(string $stationName): void
+    {
+        $this->stationName = $stationName;
+    }
+
+    /**
+     * @param \DateTime $timestamp
+     */
+    public function setTimestamp(\DateTime $timestamp): void
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @param float $longitude
+     */
+    public function setLongitude(float $longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @param float $latitude
+     */
+    public function setLatitude(float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @param float $stp
+     */
+    public function setStp(float $stp): void
+    {
+        $this->stp = $stp;
+    }
+
+    /**
+     * @param float $cldc
+     */
+    public function setCldc(float $cldc): void
+    {
+        $this->cldc = $cldc;
+    }
+
+
+
 
 }

@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/api/index.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,6 +193,7 @@
       <workItem from="1685307912234" duration="5395000" />
       <workItem from="1685356952365" duration="16714000" />
       <workItem from="1686053546622" duration="1993000" />
+      <workItem from="1686570030071" duration="623000" />
     </task>
     <task id="LOCAL-00001" summary="Het inlogsysteem en registersysteem zijn geïmplementeerd.">
       <created>1685365334141</created>

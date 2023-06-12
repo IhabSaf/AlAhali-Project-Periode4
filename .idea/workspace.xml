@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a901e7c3-3f35-408b-9892-8b6470f71ef2" name="Changes" comment="styling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cloudiness/cloudiness.html.twig.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

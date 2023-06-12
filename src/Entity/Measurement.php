@@ -63,5 +63,59 @@ class Measurement
      */
     private $cldc;
 
+    /**
+     * @return int
+     */
+    public function getMeasurementId(): int|null
+    {
+        return $this->measurementId;
+    }
 
+    /**
+     * @return string
+     */
+    public function getStationName(): string|null
+    {
+        return $this->stationName;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimestamp(): \DateTime|null
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLongitude(): float|null
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLatitude(): float|null
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getStp(): float|null
+    {
+        return $this->stp;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCldc(): float|null
+    {
+        return $this->cldc;
+    }
 }

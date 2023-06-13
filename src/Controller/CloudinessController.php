@@ -14,7 +14,7 @@ class CloudinessController extends AbstractController
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-      $data = $entityManager->getRepository(Measurement::class)->findBy([], array('cldc' => 'DESC', 'timestamp' => 'DESC'), 10);
+      $data = $entityManager->getRepository(Measurement::class)->findBy([], array('timestamp' => 'DESC', 'cldc' => 'DESC'), 10);
         $data_arr = [];
         foreach ($data as $_data ){
             $cldc = $_data->getCldc();

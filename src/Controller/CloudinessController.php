@@ -50,6 +50,6 @@ class CloudinessController extends AbstractController
 //
 ////        $buildquery =  $entityManager->createQuery($nieuwequery);
 ////        $komop = $buildquery->getResult();
-        return new Response("<pre>".var_dump($nieuwequery));
+//        return new Response("<pre>".var_dump($nieuwequery));
     }
 }

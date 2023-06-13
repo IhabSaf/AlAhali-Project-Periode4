@@ -10,12 +10,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class RegistrationController extends AbstractController
 {
+    private $tokenStorage;
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     #[Route('/registration', name: 'app_registration')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        $currentUser = $this->tokenStorage->getToken()->getUser();
+        $whoAmi = $currentUser->getRol();
+        if ($whoAmi != 1) {
+            throw new AccessDeniedException('Access denied');
+        }
 
         $employees = new Employees();
 

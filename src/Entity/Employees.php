@@ -67,6 +67,10 @@ class Employees implements UserInterface, PasswordAuthenticatedUserInterface
     {
     return [] ;   }
 
+    public function getRol(): int
+    {
+        return $this->isAdmin;   }
+
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.

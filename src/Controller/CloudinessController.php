@@ -35,45 +35,33 @@ class CloudinessController extends AbstractController
 //            'arr' => $data_arr,
 //
 //        ]);
-
+// And !in_array($filter_data->getStationName(), $data_arr, true)
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $data_arr = [];
-        $full_data_arr = $this->filterData($entityManager, $data_arr);
-        $today = date("Y-m-d");
-//        return new Response("<pre>". var_dump($full_data_arr));
+
+        $day_start = date('Y-m-d H:');
+        $day_start = $day_start.'00:00';
+        $end_day = date('Y-m-d H:');
+        $end_day = $end_day.'59:59';
+
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select(' m.stationName','m.cldc', 'm.timestamp')
+            ->from('App\Entity\Measurement', 'm')
+            ->where('m.timestamp > :day_start')
+            ->andWhere('m.timestamp < :end_day')
+            ->setParameter('day_start',$day_start)
+            ->setParameter('end_day',$end_day )
+            ->orderBy('m.cldc','DESC')
+            ->setMaxResults(10);
+      $query = $qb->getQuery();
+      $result = $query->getResult();
+
+
         return $this->render('cloudiness/index.html.twig', [
             'controller_name' => 'CloudinessController',
-            'arr' => $full_data_arr,
+            'Results' => $result,
 
         ]);
-
-
-    }
-    public function filterData(EntityManagerInterface $entityManager, array $data_arr): array
-    {
-        $today = date("Y-m-d");
-        $data = $entityManager->getRepository(Measurement::class)->findBy([], array('cldc' => 'DESC', 'timestamp' => 'DESC'), 1000);
-        $data_arr = [];
-        foreach ($data as $filter_data) {
-            if ($filter_data->getTimestamp()->format('Y-m-d') == $today And !in_array($filter_data->getStationName(), $data_arr)) {
-                $cldc = $filter_data->getCldc();
-                $station = $filter_data->getStationName();
-                $time_stamp = $filter_data->getTimestamp()->format('Y-m-d H:i:s');
-                $data_arr[] = array(
-                    0 => $station,
-                    1 => $cldc,
-                    2 => $time_stamp
-                );
-            }
-        }
-        return $data_arr;
-    }
-    private function contains(array $array, string $item ): Boolean{
-        if (in_array($item, $array)) {
-            return true;
-        }
-        return false;
     }
 }

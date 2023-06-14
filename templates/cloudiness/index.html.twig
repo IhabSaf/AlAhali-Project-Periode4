@@ -32,11 +32,11 @@
                 <th> Date & Time </th>
             </tr>
 
-            {% for key, data in arr %}
+            {% for item in Results %}
                 <tr>
-                    {% for sleutel, value in data %}
-                        <td>{{ arr[key][sleutel] }}</td>
-                    {% endfor %}
+                    <td>{{ item.stationName }}</td>
+                    <td>{{ item.cldc }}</td>
+                    <td>{{ item.timestamp|date('Y-m-d H:i:s') }}</td>
                 </tr>
             {% endfor %}
         </table>

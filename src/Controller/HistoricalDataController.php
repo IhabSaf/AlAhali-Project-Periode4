@@ -24,44 +24,43 @@ class HistoricalDataController extends AbstractController
             $today = date('Y-m-d');
             $fourWeeks = 28;
             $dataPerDay = [];
-            for($i = 0; $i <$fourWeeks; $i++){
+            for($i = 0; $i < $fourWeeks; $i++){
                 $qb = $entityManager->createQueryBuilder();
                 $qb
                     ->select('avg(m.stp) as stp')
                     ->from('App\Entity\Measurement', 'm')
-                    ->where('m.timestamp > :today')
-                    ->andWhere('m.timestamp < :yesterday')
-                    ->andWhere('m.stationName > :param2')
+                    ->where('m.timestamp < :today')
+                    ->andWhere('m.timestamp > :yesterday')
+                    ->andWhere('m.stationName > :station_name')
                     ->setParameter('today', $today)
                     ->setParameter('yesterday', $this->yesterday($today))
-                    ->setParameter('param2', $data["stationName"])
+                    ->setParameter('station_name', $data["stationName"])
                     ;
-                $query = $qb->getQuery();
-                $results = $query->getResult();
-
-                $today = $this->yesterday($today);
-                array_push($dataPerDay, $results[0]);
+                    $query = $qb->getQuery();
+                    $results = $query->getResult();
+                    
+                    // 死にたい
+                    $today = $this->yesterday($today);
+                    $dataPerDay[$i] = $results[0];
+                }
+                
+                return $this->render('historical_data/index.html.twig', [
+                    'controller_name' => 'HistoricalDataController',
+                    'form' => $form->createView(),
+                    'selected_station' => $data["stationName"],
+                    'formData' => $dataPerDay,
+                    'formFilled' => true
+                ]);
             }
-
+            
             return $this->render('historical_data/index.html.twig', [
                 'controller_name' => 'HistoricalDataController',
                 'form' => $form->createView(),
-                'selected_station' => $data["stationName"],
-                'formData' => $dataPerDay,
-                'formFilled' => true
+                'selected_station' => 'No station selected',
+                'formFilled' => false
             ]);
         }
-
         
-        
-        return $this->render('historical_data/index.html.twig', [
-            'controller_name' => 'HistoricalDataController',
-            'form' => $form->createView(),
-            'selected_station' => 'No station selected',
-            'formFilled' => false
-        ]);
-    }
-
     public function dateFourWeeksAgo(): string{
         $currentTime = date('Y-m-d H:i:s');
         $date = substr($currentTime, 0, 10);

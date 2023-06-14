@@ -14,8 +14,8 @@
     {{ form(form) }}
     <p id="current-station">Current station: {{ selected_station }}</p>
     {% if formFilled %}
-        {# {% for item in formData %}
-            {{ item }}
-        {% endfor %} #}
+        {% for item in formData %}
+            {{ item.stp }}<br>
+        {% endfor %}
     {% endif %}
 {% endblock %}

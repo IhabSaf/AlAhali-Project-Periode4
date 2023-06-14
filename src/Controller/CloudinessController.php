@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Measurement;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,8 +55,9 @@ class CloudinessController extends AbstractController
     {
         $today = date("Y-m-d");
         $data = $entityManager->getRepository(Measurement::class)->findBy([], array('cldc' => 'DESC', 'timestamp' => 'DESC'), 1000);
+        $data_arr = [];
         foreach ($data as $filter_data) {
-            if ($filter_data->getTimestamp()->format('Y-m-d') == $today ) { // && !data_arr($filter_data->getStationName()) 
+            if ($filter_data->getTimestamp()->format('Y-m-d') == $today And !in_array($filter_data->getStationName(), $data_arr)) {
                 $cldc = $filter_data->getCldc();
                 $station = $filter_data->getStationName();
                 $time_stamp = $filter_data->getTimestamp()->format('Y-m-d H:i:s');
@@ -67,5 +69,11 @@ class CloudinessController extends AbstractController
             }
         }
         return $data_arr;
+    }
+    private function contains(array $array, string $item ): Boolean{
+        if (in_array($item, $array)) {
+            return true;
+        }
+        return false;
     }
 }

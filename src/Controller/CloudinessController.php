@@ -39,19 +39,21 @@ class CloudinessController extends AbstractController
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        // hour_now is the year-month-day and hour of right now
+        // hour_behind is the year-month-day and hour. The data within 59minute and 59 seconds of the hour_now hour will be given
 
-        $day_start = date('Y-m-d H:');
-        $day_start = $day_start.'00:00';
-        $end_day = date('Y-m-d H:');
-        $end_day = $end_day.'59:59';
+        $hour_now = date('Y-m-d H:');
+        $hour_now = $hour_now.'00:00';
+        $hour_behind = date('Y-m-d H:');
+        $hour_behind = $hour_behind.'59:59';
 
         $qb = $entityManager->createQueryBuilder();
         $qb->select(' m.stationName','m.cldc', 'm.timestamp')
             ->from('App\Entity\Measurement', 'm')
-            ->where('m.timestamp > :day_start')
-            ->andWhere('m.timestamp < :end_day')
-            ->setParameter('day_start',$day_start)
-            ->setParameter('end_day',$end_day )
+            ->where('m.timestamp > :hour_now')
+            ->andWhere('m.timestamp < :hour_behind')
+            ->setParameter('hour_now',$hour_now)
+            ->setParameter('hour_behind',$hour_behind )
             ->orderBy('m.cldc','DESC')
             ->setMaxResults(10);
       $query = $qb->getQuery();

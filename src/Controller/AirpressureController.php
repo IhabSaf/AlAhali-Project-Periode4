@@ -12,6 +12,11 @@ class AirpressureController extends AbstractController
     #[Route('/airpressure', name: 'app_airpressure')]
     public function index(EntityManagerInterface $entitymanager): Response
     {
+
+        $hour_now = date('Y-m-d H:');
+        $hour_now = $hour_now.'00:00';
+        $hour_behind = date('Y-m-d H:');
+        $hour_behind = $hour_behind.'59:59';
         // query to get the high airpressure
         $qb = $entitymanager->createQueryBuilder();
         $qb->select('m.stationName', 'm.stp', 'm.timestamp')

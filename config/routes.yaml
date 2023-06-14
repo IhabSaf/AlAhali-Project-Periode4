@@ -9,3 +9,7 @@ app_login:
 app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
+app_historical_data:
+    path: /historical/data
+    controller: App\Controller\HistoricalDataController::index

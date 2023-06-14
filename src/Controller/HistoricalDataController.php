@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+// All imports
 use App\Form\HistoricalStationSelectType;
 use App\Entity\Measurement;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,15 +13,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HistoricalDataController extends AbstractController
 {
+    /**
+     * Render a page with form to ask for a station_name.
+     * When the form is filled in, a chart will be shown with average
+     * stp data per day, up to 4 weeks prior to the current day.
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response render a template
+     */
     #[Route('/historical/data', name: 'app_historical_data')]
     public function index(Request $request, EntitymanagerInterface $entityManager): Response
     {
+        // Create form to get station_name
         $form = $this->createForm(HistoricalStationSelectType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
 
+            // Collect all average stp's in an array
             $today = date('Y-m-d');
             $fourWeeks = 28;
             $dataPerDay = [];
@@ -44,6 +55,7 @@ class HistoricalDataController extends AbstractController
                     $dataPerDay[$i] = $results[0];
                 }
                 
+                // Render page with data
                 return $this->render('historical_data/index.html.twig', [
                     'controller_name' => 'HistoricalDataController',
                     'form' => $form->createView(),
@@ -53,35 +65,30 @@ class HistoricalDataController extends AbstractController
                 ]);
             }
             
+            // Render page without data
             return $this->render('historical_data/index.html.twig', [
                 'controller_name' => 'HistoricalDataController',
                 'form' => $form->createView(),
                 'selected_station' => 'No station selected',
                 'formFilled' => false
-            ]);
-        }
-        
-    public function dateFourWeeksAgo(): string{
-        $currentTime = date('Y-m-d H:i:s');
-        $date = substr($currentTime, 0, 10);
-        $time = substr($currentTime, 10);
-        $FOURWEEKS = 28;
-        
-        for($i = 0; $i < $FOURWEEKS; $i++){
-            $date = $this->yesterday($date);
-        }
-
-        return $date.$time;
+            ]
+        );
     }
 
+    /**
+     * Input a date in (Y-m-d) format and returns a date a day before input.
+     * @param string $date (Y-m-d)
+     * @return string $date (Y-m-d)
+     */
     public function yesterday(string $date): string{
-        $split = explode('-', $date);
+        $split = explode('-', $date); // Split date to array
         $year = $split[0]; $month = $split[1]; $day = $split[2];
-        $monthDays = [1=>31, 2=>28, 3=>31, 4=>30, 5=>31, 6=>30, 7=>31, 8=>31, 9=>30, 10=>31, 11=>30, 12=>31];
-        if(intval($split[0])%4 == 0){
-            $monthDays = array_replace($monthDays, array(2 => 29));
-        }
+        $monthDays = [1=>31, 2=>28, 3=>31, 4=>30, 5=>31, 6=>30, 7=>31, 8=>31, 9=>30, 10=>31, 11=>30, 12=>31]; // Days per month
+        
+        // Leap year -> February has 29 days
+        if(intval($split[0])%4 == 0){$monthDays = array_replace($monthDays, array(2 => 29));}
 
+        // If day/month falls below 1, update previous [year,month,day]
         $day = intval($split[2]) - 1;
         if ($day <= 0){
             $month = intval($month) - 1;

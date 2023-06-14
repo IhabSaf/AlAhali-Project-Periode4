@@ -1,5 +1,5 @@
 <?php
-
+//php bin/console app:background-data-fetcher
 namespace App\Command;
 
 use App\Entity\Measurement;

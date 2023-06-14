@@ -58,9 +58,18 @@ class CloudinessController extends AbstractController
       $result = $query->getResult();
 
 
+        // Filter de duplicate van station names
+        $filteredResult = [];
+        foreach ($result as $data) {
+            $stationName = $data['stationName'];
+            if (!isset($filteredResult[$stationName])) {
+                $filteredResult[$stationName] = $data;
+            }
+        }
+
         return $this->render('cloudiness/index.html.twig', [
             'controller_name' => 'CloudinessController',
-            'Results' => $result,
+            'Results' => $filteredResult,
 
         ]);
     }

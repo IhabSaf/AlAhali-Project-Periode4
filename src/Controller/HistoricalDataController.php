@@ -35,7 +35,9 @@ class HistoricalDataController extends AbstractController
             $today = date('Y-m-d');
             $fourWeeks = 28;
             $dataPerDay = [];
+            $days = [];
             for($i = 0; $i < $fourWeeks; $i++){
+                // Dataset below 990mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
                 $qb
                     ->select('avg(m.stp) as stp')
@@ -43,16 +45,37 @@ class HistoricalDataController extends AbstractController
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
                     ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stp < 990')
                     ->setParameter('today', $today)
                     ->setParameter('yesterday', $this->yesterday($today))
                     ->setParameter('station_name', $data["stationName"])
-                    ;
-                    $query = $qb->getQuery();
-                    $results = $query->getResult();
-                    
-                    // 死にたい
-                    $today = $this->yesterday($today);
-                    $dataPerDay[$i] = $results[0];
+                ;
+                $query = $qb->getQuery();
+                $lowResults = $query->getResult();
+
+                // Dataset above 1030mBar | Average of a single day
+                $qb = $entityManager->createQueryBuilder();
+                $qb
+                    ->select('avg(m.stp) as stp')
+                    ->from('App\Entity\Measurement', 'm')
+                    ->where('m.timestamp < :today')
+                    ->andWhere('m.timestamp > :yesterday')
+                    ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stp > 1030')
+                    ->setParameter('today', $today)
+                    ->setParameter('yesterday', $this->yesterday($today))
+                    ->setParameter('station_name', $data["stationName"])
+                ;
+                $query = $qb->getQuery();
+                $highResults = $query->getResult();
+                
+                // Put all data and dates in arrays to be sent to the template
+                $lowDataPerDay[$i] = $lowResults[0];
+                $highDataPerDay[$i] = $highResults[0];
+                $split = explode('-', $today);
+                $days[$i] = $split[2];
+                $months[$i] = $split[1];
+                $today = $this->yesterday($today);
                 }
                 
                 // Render page with data
@@ -60,8 +83,12 @@ class HistoricalDataController extends AbstractController
                     'controller_name' => 'HistoricalDataController',
                     'form' => $form->createView(),
                     'selected_station' => $data["stationName"],
-                    'formData' => $dataPerDay,
-                    'formFilled' => true
+                    'formFilled' => true,
+                    // All arrays are reversed so the data is shown left to right according to date
+                    'lowFormData' => array_reverse($lowDataPerDay),
+                    'highFormData' => array_reverse($highDataPerDay),
+                    'formDays' => array_reverse($days),
+                    'formMonths' => array_reverse($months)
                 ]);
             }
             

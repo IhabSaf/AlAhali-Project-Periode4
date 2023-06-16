@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HistoricalDataController extends AbstractController
 {
 
+    /**
+     * Force download historical_data.xml
+     */
     #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
     public function download(){
         return $this->file('../templates/historical_data/historical_data.xml');
@@ -147,11 +150,24 @@ class HistoricalDataController extends AbstractController
         return strval($year).'-'.strval($month).'-'.strval($day);
     }
 
+    /**
+     * Puts a date in d-m format
+     * @param string $date (m-d)
+     * @return string $date (d-m)
+     */
     public function dayMonthFormat(string $date): string {
         $split = explode('-', $date);
         return $split[2].'-'.$split[1];
     }
 
+    /**
+     * Takes some data and puts it in the correct format to be converted to an .xml file
+     * @param string $stationName
+     * @param array $dates
+     * @param array $lowDataPerDay
+     * @param array $highDataPerDay
+     * @return array ready in .xml format | Used in ArrayToXml::convert()
+     */
     public function createXMLArray(string $stationName, array $dates, array $lowDataPerDay, array $highDataPerDay): array{
         $blocks = [];
         $fourWeeks = 28;

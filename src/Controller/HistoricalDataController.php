@@ -16,6 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HistoricalDataController extends AbstractController
 {
+
+    #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
+    public function download(){
+        return $this->file('../templates/historical_data/historical_data.xml');
+    }
+
     /**
      * Render a page with form to ask for a station_name.
      * When the form is filled in, a chart will be shown with average
@@ -82,23 +88,25 @@ class HistoricalDataController extends AbstractController
                 $months[$i] = $split[1];
 
             }
-            //$xmlArray = [$data["stationName"] => ['lowStps' => $lowDataPerDay[0], 'highStps' => $highDataPerDay[0]] ];
-            // $xmlArray = [$data["stationName"] => $test];
-            // $xml = ArrayToXml::convert($xmlArray);
 
-                // Render page with data
-                return $this->render('historical_data/index.html.twig', [
-                    'controller_name' => 'HistoricalDataController',
-                    'form' => $form->createView(),
-                    'selected_station' => $data["stationName"],
-                    'formFilled' => true,
-                    // All arrays are reversed so the data is shown left to right according to date
-                    'lowFormData' => array_reverse($lowDataPerDay),
-                    'highFormData' => array_reverse($highDataPerDay),
-                    'formDays' => array_reverse($days),
-                    'formMonths' => array_reverse($months)
-                ]);
-            }
+            $xml = ArrayToXml::convert($this->createXMLArray($data["stationName"], array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
+            $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
+            fwrite($xmlFile, $xml);
+            fclose($xmlFile);
+
+            // Render page with data
+            return $this->render('historical_data/index.html.twig', [
+                'controller_name' => 'HistoricalDataController',
+                'form' => $form->createView(),
+                'selected_station' => $data["stationName"],
+                'formFilled' => true,
+                // All arrays are reversed so the data is shown left to right according to date
+                'lowFormData' => array_reverse($lowDataPerDay),
+                'highFormData' => array_reverse($highDataPerDay),
+                'formDays' => array_reverse($days),
+                'formMonths' => array_reverse($months)
+            ]);
+        }
             
             // Render page without data
             return $this->render('historical_data/index.html.twig', [
@@ -142,5 +150,17 @@ class HistoricalDataController extends AbstractController
     public function dayMonthFormat(string $date): string {
         $split = explode('-', $date);
         return $split[2].'-'.$split[1];
+    }
+
+    public function createXMLArray(string $stationName, array $dates, array $lowDataPerDay, array $highDataPerDay): array{
+        $blocks = [];
+        $fourWeeks = 28;
+        for($i = 0; $i < $fourWeeks; $i++){
+            $blocks["date_".$dates[$i]] = [
+                'lowStp' => $lowDataPerDay[$i]['stp'],
+                'highStp' => $highDataPerDay[$i]['stp']
+            ];
+        }
+        return $xmlArray = [$stationName => $blocks];
     }
 }

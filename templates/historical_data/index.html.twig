@@ -1,28 +1,18 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Hello HistoricalDataController!{% endblock %}
+
 {% block body %}
-<title>Historical data</title>
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .required { margin-right: 1vw; }
+    #historical_station_select_Submit { float: left; margin-right: 1vw; }
     #current-station { float: right; float: top; }
-
-    @media (min-width:992px){
-        body {
-            background-color: #FFFFFF;
-            padding-left: 21%;
-            padding-right: 1%;
-            padding-top: 4%;
-        }
-    }
-
-    body {
-        background-color: #FFFFFF;
-        padding-top: 8%;
-    }
-
 </style>
 
 <div class="example-wrapper">
+    <h1>Hello {{ controller_name }}!</h1>
 
     {{ form(form) }}
     <p id="current-station">Current station: {{ selected_station }}</p>
@@ -80,5 +70,4 @@
         );
         console.log(highStps);
     </script>
-</div>
 {% endblock %}

@@ -31,7 +31,7 @@ class CloudinessController extends AbstractController
             ->setParameter('day_start',$day_start)
             ->setParameter('end_day',$end_day )
             ->orderBy('m.cldc','DESC')
-            ->setMaxResults(10);
+            ->setMaxResults(100);
       $query = $qb->getQuery();
       $result = $query->getResult();
 
@@ -44,6 +44,9 @@ class CloudinessController extends AbstractController
                 $filteredResult[$stationName] = $data;
             }
         }
+
+        // makes sure that there is always 10 values
+        $filteredResult = array_slice($filteredResult, 0, 10);
 
         return $this->render('cloudiness/index.html.twig', [
             'controller_name' => 'CloudinessController',

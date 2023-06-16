@@ -21,14 +21,16 @@ const timestamps = Object.keys(timestampObjects).map((key) => timestampObjects[k
 
 const convertedDate = []
 
+
 for(const index in timestamps){
 
     const timestamp = new Date(timestamps[index]);
 
+    // format the timestamp into a string with only the time
     const formattedTimestamp = timestamp.toLocaleString("nl-NL", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
+        // year: "2-digit",
+        // month: "2-digit",
+        // day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
@@ -36,46 +38,54 @@ for(const index in timestamps){
     convertedDate.push(formattedTimestamp)
 }
 
-console.log(convertedDate)
+//concatenation of stationname and the time of the data arrival
+const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
+
 // get the lowest number for the y of the graph to always make all the statistics visible
 lowestPoint = Math.min(...cldc) - 5;
+
+
 
 var ctx = document.getElementById("myCloudChart");
 var myLineChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: convertedDate,
-        datasets: [{
-            label: "percentage",
-            backgroundColor: "rgba(18,174,204)", // of deze rgba(11, 91, 107)?
-            borderColor: "rgba(2,117,216,1)",
-            data: cldc,
-        }],
+        labels: stationNames,
+        datasets: [
+            {
+                label: "% of cloudiness",
+                backgroundColor: "rgba(18,174,204)", // of deze rgba(11, 91, 107)?
+                borderColor: "rgba(2,117,216,1)",
+                data: cldc,
+            },
+        ],
     },
-    options: {
-        scales: {
-            xAxes: [{
-                time: {
-                    unit: 'month'
-                },
-                gridLines: {
-                    display: true
-                },
 
-            }],
-            yAxes: [{
-                ticks: {
-                    min: lowestPoint,
-                    max: 100,
-                    maxTicksLimit: 20
-                },
-                gridLines: {
-                    display: true
-                }
-            }],
+    options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: true
+                    },
+
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: lowestPoint,
+                        max: 100,
+                        maxTicksLimit: 20
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            },
         },
-        legend: {
-            display: false
-        }
-    }
+
 });

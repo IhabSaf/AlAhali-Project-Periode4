@@ -13,3 +13,7 @@ app_logout:
 app_historical_data:
     path: /historical/data
     controller: App\Controller\HistoricalDataController::index
+
+app_historical_data_download:
+    path: /historical/data/download
+    controller: App\Controller\HistoricalDataController::download

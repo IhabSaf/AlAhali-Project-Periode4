@@ -95,6 +95,15 @@
   }
 }
 
+@media (min-width:992px){
+  body {
+    background-color: #FFFFFF;
+    padding-left: 23%;
+    padding-right: 1%;
+    padding-top: 2%;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);

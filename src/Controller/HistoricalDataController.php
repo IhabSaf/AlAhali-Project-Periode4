@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 // All imports
+use Spatie\ArrayToXml\ArrayToXml;
 use App\Form\HistoricalStationSelectType;
 use App\Entity\Measurement;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +25,7 @@ class HistoricalDataController extends AbstractController
      * @return Response render a template
      */
     #[Route('/historical/data', name: 'app_historical_data')]
-    public function index(Request $request, EntitymanagerInterface $entityManager): Response
+    public function index(Request $request, EntitymanagerInterface $entityManager, ChartBuilderInterface $chartBuilder): Response
     {
         // Create form to get station_name
         $form = $this->createForm(HistoricalStationSelectType::class);
@@ -44,14 +47,14 @@ class HistoricalDataController extends AbstractController
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
-                    ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stationName = :station_name')
                     ->andWhere('m.stp < 990')
-                    ->setParameter('today', $today)
-                    ->setParameter('yesterday', $this->yesterday($today))
+                    ->setParameter('today', $today.' 00:00:00')
+                    ->setParameter('yesterday', $this->yesterday($today).' 00:00:00')
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $lowResults = $query->getResult();
+                $lowResults = $query->getArrayResult();
 
                 // Dataset above 1030mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
@@ -60,24 +63,29 @@ class HistoricalDataController extends AbstractController
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
-                    ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stationName = :station_name')
                     ->andWhere('m.stp > 1030')
-                    ->setParameter('today', $today)
-                    ->setParameter('yesterday', $this->yesterday($today))
+                    ->setParameter('today', $today.' 00:00:00')
+                    ->setParameter('yesterday', $this->yesterday($today).' 00:00:00')
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $highResults = $query->getResult();
+                $highResults = $query->getArrayResult();
                 
                 // Put all data and dates in arrays to be sent to the template
                 $lowDataPerDay[$i] = $lowResults[0];
                 $highDataPerDay[$i] = $highResults[0];
+                $today = $this->yesterday($today);
+                $dates[$i] = $this->dayMonthFormat($today);
                 $split = explode('-', $today);
                 $days[$i] = $split[2];
                 $months[$i] = $split[1];
-                $today = $this->yesterday($today);
-                }
-                
+
+            }
+            //$xmlArray = [$data["stationName"] => ['lowStps' => $lowDataPerDay[0], 'highStps' => $highDataPerDay[0]] ];
+            // $xmlArray = [$data["stationName"] => $test];
+            // $xml = ArrayToXml::convert($xmlArray);
+
                 // Render page with data
                 return $this->render('historical_data/index.html.twig', [
                     'controller_name' => 'HistoricalDataController',
@@ -129,5 +137,10 @@ class HistoricalDataController extends AbstractController
         if($month < 10) $month = '0'.intval($month);
 
         return strval($year).'-'.strval($month).'-'.strval($day);
+    }
+
+    public function dayMonthFormat(string $date): string {
+        $split = explode('-', $date);
+        return $split[2].'-'.$split[1];
     }
 }

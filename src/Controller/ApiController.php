@@ -6,6 +6,7 @@ use App\Entity\Measurement;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,54 +14,50 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     #[Route('/api', name: 'app_a_p_i')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager)
     {
-        // Create a stream
-        $token = "1";
-        $opts = [
-            "http" => [
-                'header' => "endpoint-token: ".$token,
-            ]
-        ];
 
-
-        $context = stream_context_create($opts);
-
-
-        $user_id = "1";
-        $contract_id = "1";
-        $apiUrl = 'http://localhost:8000/api/'.$user_id.'/'.$contract_id;
-
-        //verwachte aankomst tijd van de data.
-        $interval = 5;
-        while (true) {
+        // op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
+        while(true){
             set_time_limit(60);
-
-            // ophaal de data van de api
-            $file = file_get_contents($apiUrl, false, $context);
-            $data = json_decode($file, true);
-
-            // tijd van de api en convert meteen
-            $timestamp = new DateTime($data['timestamp']);
-
-            foreach ($data as $key => $measurementData) {
-                if ($key !== 'timestamp') {
-                    $measurement = new Measurement();
-                    $measurement->setTimestamp($timestamp);
-                    $measurement->setStationName($measurementData[0]);
-                    $measurement->setLongitude(2.316);
-                    $measurement->setLatitude(96.623);
-                    $measurement->setStp($measurementData[1][0]);
-                    $measurement->setCldc($measurementData[1][1]);
-                    $entityManager->persist($measurement);
-
-                }
-            }
-            $entityManager->flush();
-
-
-            // wacht totdat er nieuwe data binnen komt
-            sleep($interval);
+            $httpClient = HttpClient::create();
+            $headers = [
+                'api-key' => 'I8h5fxj1B61CbbN6xBkLFWLDlsmZMGY7nFpMIkKK54XjS1RqjzYwlcZ1noqwVMFE0xeoctqmH4u9JLLXQUlEnV8oQ7m3obpwoTH0',
+            ];
+            $response = $httpClient->request('GET', 'http://localhost:8020/api/contract/5', [
+                'headers' => $headers,
+            ]);
+            $this->toDatabase($response, $entityManager);
+            sleep(5);
         }
 
-    }}
+    }
+
+    public function toDatabase($response, $entityManager)
+    {
+        // Maak het HTTP-verzoek en haal de inhoud op
+        $content = $response->getContent();
+        $data = json_decode($content, true);
+
+        // Toegang tot de "WEATHERDATA" in de array
+        $weatherData = $data['WEATHERDATA'];
+
+        //loop in de array en haal de data
+        foreach ($weatherData as $measurementData) {
+            // Maak de tijd formaat
+            $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
+            $timestamp = DateTime::createFromFormat('Y:m:d H:i:s', $timestampString);
+
+            // nieuwe object en dan in de database opslaan.
+            $measurement = new Measurement();
+            $measurement->setTimestamp($timestamp);
+            $measurement->setStationName($measurementData['Station_name']);
+            $measurement->setLongitude($measurementData['Longitude']);
+            $measurement->setLatitude($measurementData['Latitude']);
+            $measurement->setStp(floatval($measurementData['Stp']));
+            $measurement->setCldc(floatval($measurementData['Cldc']));
+            $entityManager->persist($measurement);
+            $entityManager->flush();
+        }
+    }
+}

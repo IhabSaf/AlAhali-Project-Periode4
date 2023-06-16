@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\HttpClient\HttpClient;
 
 class BackgroundDataFetcherCommand extends Command
 {
@@ -30,53 +31,48 @@ class BackgroundDataFetcherCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
 
-        // Create a stream
-        $token = "1";
-        $opts = [
-            "http" => [
-                'header' => "endpoint-token: ".$token,
-            ]
-        ];
-
-        $context = stream_context_create($opts);
-
-        $user_id = "1";
-        $contract_id = "1";
-        $apiUrl = 'http://localhost:8010/api/'.$user_id.'/'.$contract_id;
-
-        // Expected arrival time of the data.
-        $interval = 5;
-        while (true) {
+        // op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
+        while(true){
             set_time_limit(60);
-
-            // Retrieve data from the API
-            $file = file_get_contents($apiUrl, false, $context);
-            $data = json_decode($file, true);
-
-            // Time of the API and convert immediately
-            $timestamp = new DateTime($data['timestamp']);
-
-            foreach ($data as $key => $measurementData) {
-                if ($key !== 'timestamp') {
-                    $measurement = new Measurement();
-                    $measurement->setTimestamp($timestamp);
-                    $measurement->setStationName($measurementData[0]);
-                    $measurement->setLongitude(2.316);
-                    $measurement->setLatitude(96.623);
-                    $measurement->setStp($measurementData[1][0]);
-                    $measurement->setCldc($measurementData[1][1]);
-                    $this->entityManager->persist($measurement);
-                }
-            }
-
-            $this->entityManager->flush();
-
-            // Wait until new data arrives
-            sleep($interval);
+            $httpClient = HttpClient::create();
+            $headers = [
+                'api-key' => 'I8h5fxj1B61CbbN6xBkLFWLDlsmZMGY7nFpMIkKK54XjS1RqjzYwlcZ1noqwVMFE0xeoctqmH4u9JLLXQUlEnV8oQ7m3obpwoTH0',
+            ];
+            $response = $httpClient->request('GET', 'http://localhost:8020/api/contract/5', [
+                'headers' => $headers,
+            ]);
+            $this->toDatabase($response, $this->entityManager);
+            sleep(5);
         }
 
-        return Command::SUCCESS;
+    }
+
+    public function toDatabase($response, $entityManager)
+    {
+        // Maak het HTTP-verzoek en haal de inhoud op
+        $content = $response->getContent();
+        $data = json_decode($content, true);
+
+        // Toegang tot de "WEATHERDATA" in de array
+        $weatherData = $data['WEATHERDATA'];
+
+        //loop in de array en haal de data
+        foreach ($weatherData as $measurementData) {
+            // Maak de tijd formaat
+            $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
+            $timestamp = DateTime::createFromFormat('Y:m:d H:i:s', $timestampString);
+
+            // nieuwe object en dan in de database opslaan.
+            $measurement = new Measurement();
+            $measurement->setTimestamp($timestamp);
+            $measurement->setStationName($measurementData['Station_name']);
+            $measurement->setLongitude($measurementData['Longitude']);
+            $measurement->setLatitude($measurementData['Latitude']);
+            $measurement->setStp(floatval($measurementData['Stp']));
+            $measurement->setCldc(floatval($measurementData['Cldc']));
+            $entityManager->persist($measurement);
+            $entityManager->flush();
+        }
     }
 }

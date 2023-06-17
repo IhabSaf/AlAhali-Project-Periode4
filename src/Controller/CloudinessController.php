@@ -13,29 +13,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class CloudinessController extends AbstractController
 {
-//    #[Route('/cloudiness', name: 'app_cloudiness')]
-//    public function index(EntityManagerInterface $entityManager): Response
-//    {
-//
-//        $data = $entityManager->getRepository(Measurement::class)->findBy([], array('timestamp' => 'DESC', 'cldc' => 'DESC'), 10);
-//        $data->
-//        $data_arr = [];
-//        foreach ($data as $_data ){
-//            $cldc = $_data->getCldc();
-//            $station = $_data->getStationName();
-//            $time_stamp = $_data->getTimestamp()->format('Y-m-d H:i:s');
-//            $data_arr[] = array(
-//                0 => $station,
-//                1 => $cldc,
-//                2 => $time_stamp
-//            );
-//        }
-//        return $this->render('cloudiness/index.html.twig', [
-//            'controller_name' => 'CloudinessController',
-//            'arr' => $data_arr,
-//
-//        ]);
-// And !in_array($filter_data->getStationName(), $data_arr, true)
+
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -55,14 +33,27 @@ class CloudinessController extends AbstractController
             ->setParameter('hour_now',$hour_now)
             ->setParameter('hour_behind',$hour_behind )
             ->orderBy('m.cldc','DESC')
-            ->setMaxResults(10);
+            ->setMaxResults(100);
       $query = $qb->getQuery();
       $result = $query->getResult();
 
 
+        // Filter de duplicate van station names
+        $filteredResult = [];
+        foreach ($result as $data) {
+            $stationName = $data['stationName'];
+            if (!isset($filteredResult[$stationName])) {
+                $filteredResult[$stationName] = $data;
+            }
+        }
+
+        // makes sure that there is always 10 values
+        $filteredResult = array_slice($filteredResult, 0, 10);
+
         return $this->render('cloudiness/index.html.twig', [
             'controller_name' => 'CloudinessController',
-            'Results' => $result,
+            'filteredResult' => $filteredResult,
+
 
         ]);
     }

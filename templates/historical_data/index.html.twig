@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HistoricalDataController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .required { margin-right: 1vw; }
+    #historical_station_select_Submit { float: left; margin-right: 1vw; }
+    #current-station { float: right; float: top; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}!</h1>
+
+    {{ form(form) }}
+    <p id="current-station">Current station: {{ selected_station }}</p>
+
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+    <script> var labels = []; var lowStps = []; var highStps = [];</script>
+    <div class="js-stp-date">
+    {% if formFilled %}
+        {% for item in lowFormData %}
+            <script>
+                lowStps.push({{ item.stp|number_format(2, '.') }})
+                labels.push({{ formDays[loop.index -1]}}+"-"+{{ formMonths[loop.index -1]}})
+            </script>
+        {% endfor %}
+        {% for item in highFormData %}
+            <script> highStps.push({{ item.stp == 0 ? 0.00 : item.stp|trans }})</script>
+        {% endfor %}
+    {% endif %}
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        // SETUP BLOCK
+        // const labels = [];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'below 990mBar',
+                backgroundColor: 'rgb(18, 174, 204)',
+                borderColor: 'rgb(18, 174, 204)',
+                data: lowStps
+            },
+            {
+                label: 'above 1030mBar',
+                backgroundColor: 'rgb(11, 91, 107)',
+                borderColor: 'rgb(11, 91, 107)',
+                data: highStps
+            }]
+        };
+
+        // CONFIG BLOCK
+        const config = {
+            type: 'line',
+            data,
+            options: {}
+        };
+
+        // RENDER BLOCK
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+        console.log(highStps);
+    </script>
+{% endblock %}

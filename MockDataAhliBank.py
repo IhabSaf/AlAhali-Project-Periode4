@@ -12,6 +12,7 @@ cldc = 0    # cloudiness
 stp = 0     # airpressure
 stpup = 0   # tempvars
 stpdown = 0 # tempvars
+createFile.write("insert into measurement_examples values")
 for x in range(i):
     cldc = round(random.uniform(1.0, 99.9), 1) 
     lat = round(random.uniform(1.0, 99.9), 3)
@@ -30,5 +31,5 @@ for x in range(i):
     if upOrDown == 1: # decides if stp goes above or below threshhold
         stp = stpup
     
-    insertstmt = "insert into measurement values ( null, "+str(statname)+","+str(timestamp)+', '+str(lat)+', '+str(long)+', '+str(stp)+', '+str(cldc)+')\n'
+    insertstmt = "( null, "+str(statname)+","+str(timestamp)+', '+str(lat)+', '+str(long)+', '+str(stp)+', '+str(cldc)+'),\n'
     createFile.write(insertstmt)

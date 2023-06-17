@@ -11,7 +11,7 @@ const highStpButton = document.getElementById('button-pressure-high');
 const tableLow = document.getElementById('table-data-highStp');
 const tableHigh = document.getElementById('table-data-lowStp');
 
-
+// Start:  this is all for the HIGH pressure
 const stationData = []
 for (const key in highStp) {
     if (highStp.hasOwnProperty(key)) {
@@ -47,12 +47,51 @@ for(const index in timestamps){
     });
     convertedDate.push(formattedTimestamp)
 }
+// end:  this is all for the HIGH pressure
+
+// Start:  this is all for the LOW pressure
+const stationDataLow = []
+for (const key in lowStp) {
+    if (lowStp.hasOwnProperty(key)) {
+        stationDataLow.push(lowStp[key]);
+
+    }
+}
+
+const stationNamesLow = Object.keys(stationDataLow).map((key) => stationDataLow[key].stationName);
+
+const stpLow = Object.keys(stationDataLow).map((key) => stationDataLow[key].stp);
+
+const timestampObjectsLow = Object.values(stationDataLow).map((station) => station.timestamp);
+
+const timestampsLow = Object.keys(timestampObjectsLow).map((key) => timestampObjectsLow[key].date);
+
+const convertedDateLow = []
+
+
+for(const index in timestampsLow){
+
+    const timestamp = new Date(timestampsLow[index]);
+
+    // format the timestamp into a string with only the time
+    const formattedTimestamp = timestamp.toLocaleString("nl-NL", {
+        // year: "2-digit",
+        // month: "2-digit",
+        // day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    });
+    convertedDateLow.push(formattedTimestamp)
+}
+// End:  this is all for the LOW pressure
 
 //concatenation of stationname and the time of the data arrival
 const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
 
-// get the lowest number for the y of the graph to always make all the statistics visible
-lowestPoint = Math.min(...stpHigh) - 20;
+// get the lowest & highest number for the y of the graph to always make all the statistics visible
+const lowestPoint = Math.min(...stpLow) - 20;
+const highestPoint = Math.max(...stpHigh) + 20;
 
 
 var ctx = document.getElementById("myHighStpChart");
@@ -73,6 +112,19 @@ var myLineChart = new Chart(ctx, {
             pointHitRadius: 50,
             pointBorderWidth: 2,
             data: stpHigh
+        },{
+            label: "mBar",
+            lineTension: 0.3,
+            backgroundColor: "rgba(2,117,216,0.2)",
+            borderColor: "rgba(2,117,216,1)",
+            pointRadius: 5,
+            pointBackgroundColor: "rgba(2,117,216,1)",
+            pointBorderColor: "rgba(255,255,255,0.8)",
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+            pointHitRadius: 50,
+            pointBorderWidth: 2,
+            data: stpLow
         }],
     },
     options: {
@@ -91,7 +143,7 @@ var myLineChart = new Chart(ctx, {
             yAxes: [{
                 ticks: {
                     min: lowestPoint,
-                    max: 1100,
+                    max: highestPoint,
                     maxTicksLimit: 5
                 },
                 gridLines: {

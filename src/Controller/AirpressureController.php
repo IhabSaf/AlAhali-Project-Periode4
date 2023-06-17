@@ -23,7 +23,7 @@ class AirpressureController extends AbstractController
             ->from('App\Entity\Measurement', 'm')
             ->where('m.stp > 1029')
             ->orderBy('m.timestamp', 'DESC')
-            ->setMaxResults(100);
+            ->setMaxResults(20);
         $query = $qb->getQuery();
         $result_high_stp = $query->getResult();
 
@@ -35,7 +35,7 @@ class AirpressureController extends AbstractController
             ->from('App\Entity\Measurement', 'm')
             ->where('m.stp < 990')
             ->orderBy('m.timestamp', 'DESC')
-            ->setMaxResults(100);
+            ->setMaxResults(20);
                $query = $qb->getQuery();
         $result_low_stp = $query->getResult();
 

@@ -3,6 +3,13 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 // Bar Chart Example
 
+// create const for table data button
+const cloudinessButton = document.getElementById('button-cloudiness');
+
+// create const for the table that is hidden at the start
+const table = document.getElementById('table-data-cloudiness');
+
+
 const stationData = []
 for (const key in filteredResult) {
     if (filteredResult.hasOwnProperty(key)) {
@@ -88,4 +95,17 @@ var myLineChart = new Chart(ctx, {
             },
         },
 
+});
+
+
+let isVisible = false;
+
+cloudinessButton.addEventListener('click', function() {
+    if (isVisible) {
+        table.style.display = 'none';
+        isVisible = false;
+    } else {
+        table.style.display = 'block';
+        isVisible = true;
+    }
 });

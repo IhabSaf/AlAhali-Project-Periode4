@@ -1,30 +1,31 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
-// Bar Chart Example
-const stationData2 = []
+
+
+
+const stationDataLow = []
 for (const key in lowStp) {
     if (lowStp.hasOwnProperty(key)) {
-        stationData2.push(lowStp[key]);
+        stationDataLow.push(lowStp[key]);
 
     }
 }
 
-const stationNames2 = Object.keys(stationData2).map((key) => stationData2[key].stationName);
+const stationNamesLow = Object.keys(stationDataLow).map((key) => stationDataLow[key].stationName);
 
-const stpLow = Object.keys(stationData2).map((key) => stationData2[key].stp);
+const stpLow = Object.keys(stationDataLow).map((key) => stationDataLow[key].stp);
 
-const timestampObjects2 = Object.values(stationData2).map((station) => station.timestamp);
+const timestampObjectsLow = Object.values(stationDataLow).map((station) => station.timestamp);
 
-const timestamps2 = Object.keys(timestampObjects2).map((key) => timestampObjects2[key].date);
+const timestampsLow = Object.keys(timestampObjectsLow).map((key) => timestampObjectsLow[key].date);
 
-const convertedDate2 = []
+const convertedDateLow = []
 
-console.log(stpLow)
 
-for(const index in timestamps){
+for(const index in timestampsLow){
 
-    const timestamp = new Date(timestamps[index]);
+    const timestamp = new Date(timestampsLow[index]);
 
     // format the timestamp into a string with only the time
     const formattedTimestamp = timestamp.toLocaleString("nl-NL", {
@@ -35,14 +36,20 @@ for(const index in timestamps){
         minute: "2-digit",
         second: "2-digit",
     });
-    convertedDate.push(formattedTimestamp)
+    convertedDateLow.push(formattedTimestamp)
 }
+
+//concatenation of stationname and the time of the data arrival
+const statAndDate = convertedDateLow.map((value, index) => value.toString() + " Stat: "+ stationNamesLow[index]);
+
+// get the lowest number for the y of the graph to always make all the statistics visible
+lowestPoint = Math.min(...stpLow) - 20;
 
 var ctx = document.getElementById("myLowStpChart");
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: convertedDate2,
+        labels: convertedDateLow,
         datasets: [{
             label: "mBar",
             lineTension: 0.3,
@@ -73,8 +80,8 @@ var myLineChart = new Chart(ctx, {
             }],
             yAxes: [{
                 ticks: {
-                    min: lowStpButton,
-                    max: 1100,
+                    min: lowestPoint,
+                    max: 1000,
                     maxTicksLimit: 5
                 },
                 gridLines: {
@@ -83,7 +90,7 @@ var myLineChart = new Chart(ctx, {
             }],
         },
         legend: {
-            display: false
+            display: true
         }
     }
 });

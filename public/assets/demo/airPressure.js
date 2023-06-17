@@ -1,10 +1,7 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
-// Bar Chart Example
 
-
-console.log("doetdiehet?|")
 
 // create const for table data button
 const lowStpButton = document.getElementById('button-pressure-low');
@@ -55,7 +52,7 @@ for(const index in timestamps){
 const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
 
 // get the lowest number for the y of the graph to always make all the statistics visible
-lowestPoint = Math.min(...stpHigh) - 5;
+lowestPoint = Math.min(...stpHigh) - 20;
 
 
 var ctx = document.getElementById("myHighStpChart");
@@ -103,7 +100,7 @@ var myLineChart = new Chart(ctx, {
             }],
         },
         legend: {
-            display: false
+            display: true
         }
     }
 });

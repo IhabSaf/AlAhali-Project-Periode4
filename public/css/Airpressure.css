@@ -12,9 +12,9 @@ button{
 table, th, td {
     border:1px solid black;
 }
-.table-data-lowStp{
+#table-data-lowStp{
     display: none;
 }
-.table-data-highStp{
+#table-data-highStp{
     display: none;
 }

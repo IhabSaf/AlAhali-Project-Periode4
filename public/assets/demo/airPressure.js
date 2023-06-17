@@ -94,16 +94,16 @@ const lowestPoint = Math.min(...stpLow) - 20;
 const highestPoint = Math.max(...stpHigh) + 20;
 
 
-var ctx = document.getElementById("myHighStpChart");
+var ctx = document.getElementById("myStpChart");
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: convertedDate,
         datasets: [{
-            label: "mBar",
+            label: "above 1300 mBar",
             lineTension: 0.3,
             backgroundColor: "rgba(2,117,216,0.2)",
-            borderColor: "rgba(2,117,216,1)",
+            borderColor: "rgba(18,174,204)",
             pointRadius: 5,
             pointBackgroundColor: "rgba(2,117,216,1)",
             pointBorderColor: "rgba(255,255,255,0.8)",
@@ -113,10 +113,10 @@ var myLineChart = new Chart(ctx, {
             pointBorderWidth: 2,
             data: stpHigh
         },{
-            label: "mBar",
+            label: "below 990 mBar",
             lineTension: 0.3,
-            backgroundColor: "rgba(2,117,216,0.2)",
-            borderColor: "rgba(2,117,216,1)",
+            backgroundColor: "rgba(18,174,204)",
+            borderColor: "rgba(11, 91, 107)",
             pointRadius: 5,
             pointBackgroundColor: "rgba(2,117,216,1)",
             pointBorderColor: "rgba(255,255,255,0.8)",

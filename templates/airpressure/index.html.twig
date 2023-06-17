@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{#{% block title %}10 cloudiest stations in China{% endblock %}#}
+{% block body %}
+    <link href="{{ asset('css/Airpressure.css') }}" rel="stylesheet" />
+    <script>
+        const highStp = {{ highStp|json_encode|raw }};
+        const lowStp = {{ lowStp|json_encode|raw }};
+    </script>
+
+    <title>Airpressure</title>
+
+    <div class="example-wrapper">
+{#        =============================================================================#}
+        <div class="example-wrapper">
+            <div class="card mb-4">
+                <button  name="reload_button" onclick="location.reload()">
+                    Fetch new data
+                </button>
+                <div class="card-header">
+                    Top 10 cloudiness in percentage from the last hour
+                </div>
+                <div class="card-body">
+                    <canvas id="myStpChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+
+{#        ==================================================================================#}
+        <button name="table-data-button-low"  id="button-pressure-low" >Show Low airpressure in table</button>
+        <button name="table-data-button-high" id="button-pressure-high">Show High airpressure in table</button>
+        <div class="example-wrapper">
+        </div>
+        <div id="table-data-highStp">
+            <table class="table">
+                <tr>
+                <th> Station </th>
+                <th> Airpressure in mBar </th>
+                <th> Date & Time </th>
+            </tr>
+
+            {% for item in highStp %}
+                <tr>
+                    <td>{{ item.stationName }}</td>
+                    <td>{{ item.stp }}</td>
+                    <td>{{ item.timestamp|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <div id="table-data-lowStp">
+            <table class="table">
+                <tr>
+                    <th> Station </th>
+                    <th> Airpressure in mBar </th>
+                    <th> Date & Time </th>
+                </tr>
+
+        {% for item in lowStp %}
+                <tr>
+                    <td>{{ item.stationName }}</td>
+                    <td>{{ item.stp }}</td>
+                    <td>{{ item.timestamp|date('Y-m-d H:i:s') }}</td>
+                </tr>
+        {% endfor %}
+        </table>
+        </div>
+    </div>
+
+        <script src="assets/demo/airPressure.js"></script>
+
+{% endblock %}

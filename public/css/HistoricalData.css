@@ -12,11 +12,16 @@
     cursor: pointer;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    border-radius:10px;
+    min-height:30px;
+    min-width: 120px;
+
 }
 
 .download-xml-button a {
     color: white;
     text-decoration: none;
+
 }
 
 .download-xml-button:hover {

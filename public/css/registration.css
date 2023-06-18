@@ -21,6 +21,10 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius:10px;
+    min-height:30px;
+    min-width: 120px;
+
 }
 
 .form-group button:hover {

@@ -5,6 +5,7 @@
 {% block body %}
 
     <link href="{{ asset('css/registration.css') }}" rel="stylesheet" />
+
     <title>Registration</title>
 
 
@@ -32,6 +33,15 @@
             <div class="form-group">
                 {{ form_label(form.password) }}
                 {{ form_widget(form.password) }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.isAdmin.vars.id }}" class="isAdmin-label">{{ form_label(form.isAdmin) }}</label>
+                <div class="isAdmin-checkbox">
+                    {{ form_widget(form.isAdmin) }}
+                </div>
+                <div class="isAdmin-message">
+                    {{ form_errors(form.isAdmin) }}
+                </div>
             </div>
 
             <div class="form-group">

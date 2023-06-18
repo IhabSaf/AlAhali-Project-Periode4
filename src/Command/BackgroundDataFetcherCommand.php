@@ -57,15 +57,30 @@ class BackgroundDataFetcherCommand extends Command
         // Toegang tot de "WEATHERDATA" in de array
         $weatherData = $data['WEATHERDATA'];
 
+        // Ophalen van station names uit huidige WEATHERDATA | vage constructie voor performance redenen. Als je in de onderste loop steeds in de database gaat kijken maak je per measurement één doctrine query. Daar wordt het sloom van.
+        $arrMesmStnameTime = [];
+        foreach ($weatherData as $measurementData) {
+            $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
+            $arrMesmStnameTime[$measurementData['Station_name']] = $timestampString;
+        }
+        // één doctrine query om combinatie timestamp station name te vinden om later te kunnen kijken welke measurements al eerder zijn verstuurd.
+        $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => array_keys($arrMesmStnameTime), 'timestamp' => $arrMesmStnameTime));
+
+        // Zet alle station names in een array. Checken op keys in plaats van values is extreem klein beetje sneller....
+        $existingMeasurements = [];
+        foreach ($alreadyInMeasurementsArray as $measurement) {
+            $existingMeasurements[$measurement->getStationName()] = 0;
+        }
+
         //loop in de array en haal de data
         foreach ($weatherData as $measurementData) {
+            $stationName = $measurementData['Station_name'];
+            // Bestaat de combinatie stationname + measurement timestamp al: niet opnieuw in database zetten.
+            if(isset($existingMeasurements[$stationName])) continue;
+
             // Maak de tijd formaat
             $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
             $timestamp = DateTime::createFromFormat('Y:m:d H:i:s', $timestampString);
-
-            $stationName = $measurementData['Station_name'];
-            $doesMeasurmentAlreadyExist = $this->entityManager->getRepository(Measurement::class)->findOneBy(array('stationName' => $stationName, 'timestamp' => $timestamp));
-            if($doesMeasurmentAlreadyExist) continue;
             // nieuwe object en dan in de database opslaan.
             $measurement = new Measurement();
             $measurement->setTimestamp($timestamp);

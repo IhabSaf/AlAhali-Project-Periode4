@@ -104,22 +104,74 @@ class Measurement
     }
 
     /**
-     * @param float|null $stp
+     * @param float $stp
      */
-    public function setStp(float|null $stp): void
+    public function setStp(float $stp): void
     {
         $this->stp = $stp;
     }
 
     /**
-     * @param float|null $cldc
+     * @param float $cldc
      */
-    public function setCldc(float|null $cldc): void
+    public function setCldc(float $cldc): void
     {
         $this->cldc = $cldc;
     }
 
+    /**
+     * @return int
+     */
+    public function getMeasurementId(): int
+    {
+        return $this->measurementId;
+    }
 
+    /**
+     * @return string
+     */
+    public function getStationName(): string
+    {
+        return $this->stationName;
+    }
 
+    /**
+     * @return \DateTime
+     */
+    public function getTimestamp(): \DateTime
+    {
+        return $this->timestamp;
+    }
 
+    /**
+     * @return float
+     */
+    public function getLongitude(): float
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLatitude(): float
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getStp(): float
+    {
+        return $this->stp;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCldc(): float
+    {
+        return $this->cldc;
+    }
 }

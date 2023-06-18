@@ -49,7 +49,7 @@ for(const index in timestamps){
 const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
 
 // get the lowest number for the y of the graph to always make all the statistics visible
-const lowestPoint = Math.min(...cldc) - 5;
+const lowestPoint = Math.floor(Math.min(...cldc) - 5);
 
 
 

@@ -3,44 +3,13 @@
 {#{% block title %}Registration{% endblock %}#}
 
 {% block body %}
+
+    <link href="{{ asset('css/registration.css') }}" rel="stylesheet" />
     <title>Registration</title>
-    <style>
-        .form-group {
-            margin-bottom: 1em;
-        }
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.5em;
-            font-size: 16px;
-        }
-
-        .form-group button {
-            padding: 0.5em 1em;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .form-group button:hover {
-            background-color: #45a049;
-        }
-
-        .example-wrapper {
-            margin: 0 auto; /* Center the content horizontally */
-            max-width: 600px; /* Set a maximum width for the content */
-        }
-    </style>
 
     <div class="example-wrapper">
-        <h1>Registration Form ✅</h1>
+
 
         <form method="post" action="{{ path('app_registration') }}">
             {{ form_start(form) }}

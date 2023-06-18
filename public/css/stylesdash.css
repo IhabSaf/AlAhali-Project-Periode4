@@ -339,7 +339,9 @@ th {
 label {
   display: inline-block;
 }
-
+button:hover {
+  color: rgba(18, 174, 204);
+}
 button {
   border-radius: 0;
 }

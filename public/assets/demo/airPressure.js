@@ -90,15 +90,15 @@ for(const index in timestampsLow){
 const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
 
 // get the lowest & highest number for the y of the graph to always make all the statistics visible
-const lowestPoint = Math.min(...stpLow) - 20;
-const highestPoint = Math.max(...stpHigh) + 20;
+const lowestPoint = Math.floor(Math.min(...stpLow) - 20);
+const highestPoint = Math.floor(Math.max(...stpHigh) + 20);
 
 
 var ctx = document.getElementById("myStpChart");
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: convertedDate,
+        labels: stationNames,
         datasets: [{
             label: "above 1030 mBar",
             lineTension: 0.3,

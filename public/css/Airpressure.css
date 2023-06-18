@@ -7,9 +7,12 @@ body {
 
 
 button{
+
     align-content: center;
 }
 table, th, td {
+
+    padding-bottom: 10px;
     border:1px solid black;
 }
 #table-data-lowStp{

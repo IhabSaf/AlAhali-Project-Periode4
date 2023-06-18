@@ -346,6 +346,9 @@ label {
 button {
   border-radius: 0;
 }
+button:hover {
+  color: rgba(18, 174, 204);
+}
 
 button:focus:not(:focus-visible) {
   outline: 0;

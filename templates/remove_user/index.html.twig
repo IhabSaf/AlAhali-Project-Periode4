@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Remove User{% endblock %}
+
+{% block body %}
+    <style>
+        /* Add your custom styles here */
+        .container {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5em;
+            font-size: 16px;
+        }
+
+        .form-group button {
+            padding: 0.5em 1em;
+            font-size: 16px;
+            background-color: #5ea0b0;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Hello RemoveUserController! </h1>
+
+
+        <form method="POST" action="{{ path('app_remove_user') }}">
+            {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+            <div class="form-group">
+                <button type="submit">Remove User</button>
+            </div>
+            {{ form_end(form) }}
+
+
+        </form>
+
+
+    </div>
+{% endblock %}

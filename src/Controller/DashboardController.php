@@ -18,7 +18,7 @@ class DashboardController extends AbstractController
         $qb->select('m.stationName', 'm.longitude', 'm.latitude')
             ->from('App\Entity\Measurement', 'm')
             ->orderBy('m.stationName','DESC')
-            ->setMaxResults(500);
+            ->setMaxResults(1500);
         $query = $qb->getQuery();
         $result = $query->getResult();
 

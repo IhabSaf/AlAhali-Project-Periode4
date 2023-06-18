@@ -28,10 +28,10 @@ class CloudinessController extends AbstractController
         $qb = $entityManager->createQueryBuilder();
         $qb->select(' m.stationName','m.cldc', 'm.timestamp')
             ->from('App\Entity\Measurement', 'm')
-            ->where('m.timestamp > :hour_now')
-            ->andWhere('m.timestamp < :hour_behind')
-            ->setParameter('hour_now',$hour_now)
-            ->setParameter('hour_behind',$hour_behind )
+//            ->where('m.timestamp > :hour_now')
+//            ->andWhere('m.timestamp < :hour_behind')
+//            ->setParameter('hour_now',$hour_now)
+//            ->setParameter('hour_behind',$hour_behind )
             ->orderBy('m.cldc','DESC')
             ->setMaxResults(100);
       $query = $qb->getQuery();

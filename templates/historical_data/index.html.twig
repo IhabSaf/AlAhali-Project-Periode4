@@ -7,7 +7,27 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     .required { margin-right: 1vw; }
-    .download-xml-button {border: #000 1px solid; width: 20vw; }    
+    .download-xml-button {
+        display: inline-block;
+        background-color: #5ea0b0;
+        border: none;
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        padding: 10px 20px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-xml-button a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .download-xml-button:hover {
+        background-color: #45a049;
+    }
     #historical_station_select_Submit { float: left; margin-right: 1vw; }
     #current-station { float: right; float: top; }
 </style>
@@ -17,7 +37,6 @@
 
     {{ form(form) }}
     <p id="current-station">Current station: {{ selected_station }}</p>
-     <div class="download-xml-button"><a href="./data/download" target="_blank">Download .XML-file</a></div>
 
     <div>
         <canvas id="myChart"></canvas>
@@ -36,7 +55,7 @@
         {% endfor %}
     {% endif %}
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
 
@@ -72,4 +91,12 @@
         );
         console.log(highStps);
     </script>
+    <div>
+        <p>
+        </p>
+    </div>
+
+    <div class="download-xml-button">
+        <a href="./data/download" target="_blank">Download .XML-file</a>
+    </div>
 {% endblock %}

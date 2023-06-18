@@ -30,8 +30,6 @@ const timestamps = Object.keys(timestampObjects).map((key) => timestampObjects[k
 
 const convertedDate = []
 
-console.log(stpHigh)
-
 for(const index in timestamps){
 
     const timestamp = new Date(timestamps[index]);
@@ -160,7 +158,7 @@ var myLineChart = new Chart(ctx, {
 
 let isVisibleLow = false;
 lowStpButton.addEventListener('click', function() {
-    console.log("clicked")
+
     if (isVisibleLow) {
         tableLow.style.display = 'none';
         isVisibleLow = false;
@@ -172,7 +170,7 @@ lowStpButton.addEventListener('click', function() {
 
 let isVisibleHigh = false;
 highStpButton.addEventListener('click', function() {
-    console.log("clicked")
+
     if (isVisibleHigh) {
         tableHigh.style.display = 'none';
         isVisibleHigh = false;

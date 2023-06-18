@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 // All imports
+use DateTime;
 use Spatie\ArrayToXml\ArrayToXml;
 use App\Form\HistoricalStationSelectType;
 use App\Entity\Measurement;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class HistoricalDataController extends AbstractController
 {
@@ -39,7 +41,9 @@ class HistoricalDataController extends AbstractController
             $data = $form->getData();
 
             // Collect all average stp's in an array
-            $today = date('Y-m-d');
+            $today = new DateTime();
+            $today->modify('+1 day');
+            $today = $today->format('Y-m-d');
             $fourWeeks = 28;
             $dataPerDay = [];
             $days = [];
@@ -86,7 +90,7 @@ class HistoricalDataController extends AbstractController
                 $months[$i] = $split[1];
                 }
                 
-                $xml = ArrayToXml::convert($this->createXMLArray($data["stationName"], array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
+                $xml = ArrayToXml::convert($this->createXMLArray("name".$data["stationName"], array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
                 $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
                 fwrite($xmlFile, $xml);
                 fclose($xmlFile);

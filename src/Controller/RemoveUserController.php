@@ -17,12 +17,12 @@ class RemoveUserController extends AbstractController
     #[Route('/remove/user', name: 'app_remove_user')]
     public function index(Request $request, EntitymanagerInterface $entityManager): Response
     {
-        dump("hello");
+
         $form = $this->createForm(RemoveUserType::class);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
             $formData = $form->getData();
-            dump($formData);
             $userRepository = $entityManager->getRepository(Employees::class);
             $user = $userRepository->findOneBy(['email' => $formData['email']]);
             if ($user) {

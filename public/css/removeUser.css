@@ -33,5 +33,6 @@
 }
 
 .form-group button:hover {
+    transition: 0.7s;
     background-color: #4B2343;
 }

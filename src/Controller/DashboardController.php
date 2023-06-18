@@ -21,7 +21,6 @@ class DashboardController extends AbstractController
             ->setMaxResults(500);
         $query = $qb->getQuery();
         $result = $query->getResult();
-        dump($result[1]);
 
 
 
@@ -32,7 +31,6 @@ class DashboardController extends AbstractController
             $points[$index] = [$latitude, $longitude];
         }
 
-        dump($points);
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',

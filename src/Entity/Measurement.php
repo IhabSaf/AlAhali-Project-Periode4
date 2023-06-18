@@ -104,17 +104,17 @@ class Measurement
     }
 
     /**
-     * @param float $stp
+     * @param float|null $stp
      */
-    public function setStp(float $stp): void
+    public function setStp(float|null $stp): void
     {
         $this->stp = $stp;
     }
 
     /**
-     * @param float $cldc
+     * @param float|null $cldc
      */
-    public function setCldc(float $cldc): void
+    public function setCldc(float|null $cldc): void
     {
         $this->cldc = $cldc;
     }

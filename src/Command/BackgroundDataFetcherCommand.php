@@ -42,13 +42,13 @@ class BackgroundDataFetcherCommand extends Command
             $response = $httpClient->request('GET', 'http://localhost:8020/api/contract/5', [
                 'headers' => $headers,
             ]);
-            $this->toDatabase($response, $this->entityManager);
+            $this->toDatabase($response);
             sleep(5);
         }
 
     }
 
-    public function toDatabase($response, $entityManager)
+    public function toDatabase($response)
     {
         // Maak het HTTP-verzoek en haal de inhoud op
         $content = $response->getContent();
@@ -63,6 +63,9 @@ class BackgroundDataFetcherCommand extends Command
             $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
             $timestamp = DateTime::createFromFormat('Y:m:d H:i:s', $timestampString);
 
+            $stationName = $measurementData['Station_name'];
+            $doesMeasurmentAlreadyExist = $this->entityManager->getRepository(Measurement::class)->findOneBy(array('stationName' => $stationName, 'timestamp' => $timestamp));
+            if($doesMeasurmentAlreadyExist) continue;
             // nieuwe object en dan in de database opslaan.
             $measurement = new Measurement();
             $measurement->setTimestamp($timestamp);
@@ -71,8 +74,8 @@ class BackgroundDataFetcherCommand extends Command
             $measurement->setLatitude($measurementData['Latitude']);
             $measurement->setStp(floatval($measurementData['Stp']));
             $measurement->setCldc(floatval($measurementData['Cldc']));
-            $entityManager->persist($measurement);
-            $entityManager->flush();
+            $this->entityManager->persist($measurement);
+            $this->entityManager->flush();
         }
     }
 }

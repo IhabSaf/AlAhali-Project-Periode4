@@ -71,7 +71,15 @@
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
+
                     <div class="nav">
+                        {% if  app.user and app.user.admin == 1 %}
+                        <div class="sb-sidenav-menu-heading">Add/Remove Users</div>
+                        <a class="nav-link" href="{{ path('app_registration') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Add/Remove Users
+                        </a>
+                        {% endif %}
                         <div class="sb-sidenav-menu-heading">History</div>
                         <a class="nav-link" href="{{ path('app_historical_data') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>

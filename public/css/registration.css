@@ -15,19 +15,23 @@
 }
 
 .form-group button {
+    align-content: center;
     padding: 0.5em 1em;
     font-size: 16px;
-    background-color: #50a4ad;
-    color: white;
+    background-color: #00979F;
+    color: #fff;
     border: none;
     cursor: pointer;
+
     border-radius:10px;
     min-height:30px;
     min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
 }
 
 .form-group button:hover {
+    transition: 0.7s;
     background-color: #4B2343;
 }
 .example-wrapper { align-content: center; margin: 1em auto; max-width: 900px; width: 100%; font: 18px/1.5 sans-serif; padding-top: 4%; text-align: left}

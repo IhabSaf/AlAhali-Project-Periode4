@@ -17,6 +17,9 @@ class RemoveUserController extends AbstractController
     #[Route('/remove/user', name: 'app_remove_user')]
     public function index(Request $request, EntitymanagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
 
         $form = $this->createForm(RemoveUserType::class);
         $form->handleRequest($request);

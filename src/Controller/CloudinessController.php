@@ -17,6 +17,9 @@ class CloudinessController extends AbstractController
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         // hour_now is the year-month-day and hour of right now
         // hour_behind is the year-month-day and hour. The data within 59minute and 59 seconds of the hour_now hour will be given
 

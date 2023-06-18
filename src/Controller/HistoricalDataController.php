@@ -19,6 +19,9 @@ class HistoricalDataController extends AbstractController
 
     #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
     public function download(){
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->file('../templates/historical_data/historical_data.xml');
     }
 

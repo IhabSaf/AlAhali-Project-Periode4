@@ -100,7 +100,7 @@ var myLineChart = new Chart(ctx, {
     data: {
         labels: convertedDate,
         datasets: [{
-            label: "above 1300 mBar",
+            label: "above 1030 mBar",
             lineTension: 0.3,
             backgroundColor: "rgba(2,117,216,0.2)",
             borderColor: "rgba(18,174,204)",

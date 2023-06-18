@@ -96,7 +96,7 @@ var ctx = document.getElementById("myStpChart");
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: stationNames,
+        labels: convertedDate,
         datasets: [{
             label: "above 1030 mBar",
             lineTension: 0.3,

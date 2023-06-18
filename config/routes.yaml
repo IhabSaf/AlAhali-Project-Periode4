@@ -17,3 +17,7 @@ app_historical_data:
 app_historical_data_download:
     path: /historical/data/download
     controller: App\Controller\HistoricalDataController::download
+
+download_xml_four_weeks:
+    path: download/xml
+    controller: App\Controller\DownloadXmlController::downloadXml

@@ -35,3 +35,24 @@
     background-color: #4B2343;
 }
 .example-wrapper { align-content: center; margin: 1em auto; max-width: 900px; width: 100%; font: 18px/1.5 sans-serif; padding-top: 4%; text-align: left}
+
+/* Add this CSS code to your registration.css file */
+.isAdmin-label {
+    margin-right: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.isAdmin-checkbox {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.isAdmin-message {
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
+}
+

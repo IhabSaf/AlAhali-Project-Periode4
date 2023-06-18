@@ -6,9 +6,18 @@ body {
 .example-wrapper code { background: #F5F5F5; padding: 2px 6px;}
 
 
-button{
-
+button {
+    padding: 0.5em 1em;
+    font-size: 16px;
+    background-color: #5ea0b0;
+    color: white;
+    border: none;
+    cursor: pointer;
     align-content: center;
+}
+
+button:hover {
+    background-color: #4B2343;
 }
 table, th, td {
 

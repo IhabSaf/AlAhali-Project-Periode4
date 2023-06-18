@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 // All imports
+use Spatie\ArrayToXml\ArrayToXml;
 use App\Form\HistoricalStationSelectType;
 use App\Entity\Measurement;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HistoricalDataController extends AbstractController
 {
+
+    #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
+    public function download(){
+        return $this->file('../templates/historical_data/historical_data.xml');
+    }
+
     /**
      * Render a page with form to ask for a station_name.
      * When the form is filled in, a chart will be shown with average
@@ -44,14 +51,14 @@ class HistoricalDataController extends AbstractController
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
-                    ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stationName = :station_name')
                     ->andWhere('m.stp < 990')
-                    ->setParameter('today', $today)
-                    ->setParameter('yesterday', $this->yesterday($today))
+                    ->setParameter('today', $today." 00:00:00")
+                    ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $lowResults = $query->getResult();
+                $lowResults = $query->getArrayResult();
 
                 // Dataset above 1030mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
@@ -60,24 +67,30 @@ class HistoricalDataController extends AbstractController
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
-                    ->andWhere('m.stationName > :station_name')
+                    ->andWhere('m.stationName = :station_name')
                     ->andWhere('m.stp > 1030')
-                    ->setParameter('today', $today)
-                    ->setParameter('yesterday', $this->yesterday($today))
+                    ->setParameter('today', $today." 00:00:00")
+                    ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $highResults = $query->getResult();
+                $highResults = $query->getArrayResult();
                 
                 // Put all data and dates in arrays to be sent to the template
                 $lowDataPerDay[$i] = $lowResults[0];
                 $highDataPerDay[$i] = $highResults[0];
+                $today = $this->yesterday($today);
+                $dates[$i] = $this->dayMonthFormat($today);
                 $split = explode('-', $today);
                 $days[$i] = $split[2];
                 $months[$i] = $split[1];
-                $today = $this->yesterday($today);
                 }
                 
+                $xml = ArrayToXml::convert($this->createXMLArray($data["stationName"], array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
+                $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
+                fwrite($xmlFile, $xml);
+                fclose($xmlFile);
+
                 // Render page with data
                 return $this->render('historical_data/index.html.twig', [
                     'controller_name' => 'HistoricalDataController',
@@ -129,5 +142,22 @@ class HistoricalDataController extends AbstractController
         if($month < 10) $month = '0'.intval($month);
 
         return strval($year).'-'.strval($month).'-'.strval($day);
+    }
+
+    public function dayMonthFormat(string $date): string {
+        $split = explode('-', $date);
+        return $split[2].'-'.$split[1];
+    }
+
+    public function createXMLArray(string $stationName, array $dates, array $lowDataPerDay, array $highDataPerDay): array{
+        $blocks = [];
+        $fourWeeks = 28;
+        for($i = 0; $i < $fourWeeks; $i++){
+            $blocks["date_".$dates[$i]] = [
+                'lowStp' => $lowDataPerDay[$i]['stp'],
+                'highStp' => $highDataPerDay[$i]['stp']
+            ];
+        }
+        return $xmlArray = [$stationName => $blocks];
     }
 }

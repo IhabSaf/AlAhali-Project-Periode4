@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
 
 class BackgroundDataFetcherCommand extends Command
@@ -16,7 +15,7 @@ class BackgroundDataFetcherCommand extends Command
     protected static $defaultName = 'app:background-data-fetcher';
     protected static $defaultDescription = 'Run the background data fetcher';
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -57,33 +56,30 @@ class BackgroundDataFetcherCommand extends Command
         // Toegang tot de "WEATHERDATA" in de array
         $weatherData = $data['WEATHERDATA'];
 
-        // Ophalen van station names uit huidige WEATHERDATA | vage constructie voor performance redenen. Als je in de onderste loop steeds in de database gaat kijken maak je per measurement één doctrine query. Daar wordt het sloom van.
-        $arrMesmStnameTime = [];
+        // Ophalen van station names uit huidige WEATHERDATA | vage constructie voor performance redenen. Als je in de onderste loop steeds in de database gaat kijken of er al een measurement bestaat
+        // met de combinatie van stationnaam en timestamp maak je per measurement één doctrine query. Daar wordt het sloom van.
+        $measurementStationNames = [];
         foreach ($weatherData as $measurementData) {
-            $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
-            $arrMesmStnameTime[$measurementData['Station_name']] = $timestampString;
+            $measurementStationNames[$measurementData['Station_name']] = $measurementData['Date'] . ' ' . $measurementData['Time'];;
         }
-        // één doctrine query om combinatie timestamp station name te vinden om later te kunnen kijken welke measurements al eerder zijn verstuurd.
-        $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => array_keys($arrMesmStnameTime), 'timestamp' => $arrMesmStnameTime));
+        // doctrine query om combinatie timestamp station name te vinden om later te kunnen kijken welke measurements al eerder zijn verstuurd.
+        $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => array_keys($measurementStationNames), 'timestamp' => $measurementStationNames));
 
-        // Zet alle station names in een array. Checken op keys in plaats van values is extreem klein beetje sneller....
+        // Zet alle stationnamen in een array. Checken op keys door middel van isset in plaats van in_array met values is een fractie sneller....
         $existingMeasurements = [];
         foreach ($alreadyInMeasurementsArray as $measurement) {
             $existingMeasurements[$measurement->getStationName()] = 0;
         }
 
-        //loop in de array en haal de data
+        //loop in de array van measurements. Maak nieuwe measurement aan in database als dat nodig is.
         foreach ($weatherData as $measurementData) {
             $stationName = $measurementData['Station_name'];
-            // Bestaat de combinatie stationname + measurement timestamp al: niet opnieuw in database zetten.
+            // Bestaat de combinatie stationnaam + measurement timestamp al: niet opnieuw in database zetten.
             if(isset($existingMeasurements[$stationName])) continue;
 
-            // Maak de tijd formaat
-            $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
-            $timestamp = DateTime::createFromFormat('Y:m:d H:i:s', $timestampString);
-            // nieuwe object en dan in de database opslaan.
+            // nieuw measurement aanmaken
             $measurement = new Measurement();
-            $measurement->setTimestamp($timestamp);
+            $measurement->setTimestamp(DateTime::createFromFormat('Y:m:d H:i:s', $measurementData['Date'] . ' ' . $measurementData['Time']));
             $measurement->setStationName($measurementData['Station_name']);
             $measurement->setLongitude($measurementData['Longitude']);
             $measurement->setLatitude($measurementData['Latitude']);

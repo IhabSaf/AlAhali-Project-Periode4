@@ -36,6 +36,9 @@ class HistoricalDataController extends AbstractController
     #[Route('/historical/data', name: 'app_historical_data')]
     public function index(Request $request, EntitymanagerInterface $entityManager): Response
     {
+        // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
+        if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
+
         // Create form to get station_name
         $form = $this->createForm(HistoricalStationSelectType::class);
         $form->handleRequest($request);

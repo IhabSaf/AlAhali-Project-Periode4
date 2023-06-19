@@ -17,12 +17,11 @@ class CloudinessController extends AbstractController
     #[Route('/cloudiness', name: 'app_cloudiness')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
+        if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
+
         // hour_now is the year-month-day and hour of right now
         // hour_behind is the year-month-day and hour. The data within 59minute and 59 seconds of the hour_now hour will be given
-
         $hour_now = date('Y-m-d H:');
         $hour_now = $hour_now.'00:00';
         $hour_behind = date('Y-m-d H:');

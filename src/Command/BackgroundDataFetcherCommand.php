@@ -1,4 +1,5 @@
 <?php
+
 //php bin/console app:background-data-fetcher
 namespace App\Command;
 
@@ -8,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
 
 class BackgroundDataFetcherCommand extends Command
@@ -26,13 +26,12 @@ class BackgroundDataFetcherCommand extends Command
 
     protected function configure()
     {
-        // ...
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        // op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
+        // Op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
         while(true){
             set_time_limit(60);
             $httpClient = HttpClient::create();
@@ -63,6 +62,7 @@ class BackgroundDataFetcherCommand extends Command
             $timestampString = $measurementData['Date'] . ' ' . $measurementData['Time'];
             $arrMesmStnameTime[$measurementData['Station_name']] = $timestampString;
         }
+
         // één doctrine query om combinatie timestamp station name te vinden om later te kunnen kijken welke measurements al eerder zijn verstuurd.
         $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => array_keys($arrMesmStnameTime), 'timestamp' => $arrMesmStnameTime));
 

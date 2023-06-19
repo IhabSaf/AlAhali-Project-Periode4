@@ -19,6 +19,9 @@ class HistoricalDataController extends AbstractController
 
     #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
     public function download(){
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->file('../templates/historical_data/historical_data.xml');
     }
 
@@ -33,6 +36,9 @@ class HistoricalDataController extends AbstractController
     #[Route('/historical/data', name: 'app_historical_data')]
     public function index(Request $request, EntitymanagerInterface $entityManager): Response
     {
+        // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
+        if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
+
         // Create form to get station_name
         $form = $this->createForm(HistoricalStationSelectType::class);
         $form->handleRequest($request);
@@ -56,13 +62,13 @@ class HistoricalDataController extends AbstractController
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
                     ->andWhere('m.stationName = :station_name')
-                    ->andWhere('m.stp < 990')
+                    ->andWhere('m.stp < 991')
                     ->setParameter('today', $today." 00:00:00")
                     ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $lowResults = $query->getArrayResult();
+                $lowResults = $query->getResult();
 
                 // Dataset above 1030mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
@@ -72,13 +78,13 @@ class HistoricalDataController extends AbstractController
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
                     ->andWhere('m.stationName = :station_name')
-                    ->andWhere('m.stp > 1030')
+                    ->andWhere('m.stp > 1029')
                     ->setParameter('today', $today." 00:00:00")
                     ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
                 $query = $qb->getQuery();
-                $highResults = $query->getArrayResult();
+                $highResults = $query->getResult();
                 
                 // Put all data and dates in arrays to be sent to the template
                 $lowDataPerDay[$i] = $lowResults[0];
@@ -105,7 +111,8 @@ class HistoricalDataController extends AbstractController
                     'lowFormData' => array_reverse($lowDataPerDay),
                     'highFormData' => array_reverse($highDataPerDay),
                     'formDays' => array_reverse($days),
-                    'formMonths' => array_reverse($months)
+                    'formMonths' => array_reverse($months),
+                    'formDates' => array_reverse($dates)
                 ]);
             }
             

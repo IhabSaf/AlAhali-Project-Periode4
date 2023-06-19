@@ -13,6 +13,9 @@ class DownloadXmlController extends AbstractController
     #[Route('/download/xml', name: 'download_xml_four_weeks')]
     public function downloadXml(EntityManagerInterface $em) {
 
+        // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
+        if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
+
         $qb = $em->createQueryBuilder();
         $qb
             ->select('m')

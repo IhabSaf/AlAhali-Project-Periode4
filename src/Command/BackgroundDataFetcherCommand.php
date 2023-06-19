@@ -25,13 +25,12 @@ class BackgroundDataFetcherCommand extends Command
 
     protected function configure()
     {
-        // ...
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        // op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
+        // Op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
         while(true){
             set_time_limit(60);
             $httpClient = HttpClient::create();

@@ -12,18 +12,19 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
+        if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
 
 
+        // Haal de langitude en latitude vanuit de database.
         $qb = $entityManager->createQueryBuilder();
         $qb->select('m.stationName', 'm.longitude', 'm.latitude')
             ->from('App\Entity\Measurement', 'm')
-//            ->orderBy('m.stationName','DESC');
             ->setMaxResults(500);
         $query = $qb->getQuery();
         $result = $query->getResult();
 
-
-
+        //haal alleen maar nu de longitude en latitude.
         $points = [];
         foreach ($result as $index => $cord) {
             $longitude = $cord["longitude"];

@@ -13,18 +13,29 @@
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map').setView([22,55], 3.2); // Set the initial view of the map
+    var stationName = [];
+    var recentValues = [];
+    {% for element in station %}
+    recentValues.push([{{ element[1] }}, {{ element[2] }}]);
+    stationName.push('{{ element[0]|json_encode() }}');
+    {% endfor %}
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
-    }).addTo(map);
-
+    var map = L.map('map').setView([22, 55], 3.2); // Set the initial view of the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
     var points = {{ points|json_encode() }}; // Pass the latitude and longitude data from the controller
 
-    points.forEach(function(point) {
-        L.marker([point[0], point[1]]).addTo(map);
+    points.forEach(function(point, index) {
+        var marker = L.marker([point[0], point[1]]).addTo(map);
+
+        marker.bindPopup("Station name: " + stationName[index] + ","
+                                          +"\nCloudiness: " +  recentValues[index][0] + ",   "
+                                          +"\nAir pressure: " +  recentValues[index][1] + ", "
+                                          + "\nLongitude: "  + point[0] + ", "
+                                          + "\nLatitude: "   + point[1]);
     });
 </script>
+
 
 </body>
 </html>
@@ -125,7 +136,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Downloadable .xml
                         </a>
-
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

@@ -18,24 +18,34 @@ class DashboardController extends AbstractController
 
         // Haal de langitude en latitude vanuit de database.
         $qb = $entityManager->createQueryBuilder();
-        $qb->select('m.stationName', 'm.longitude', 'm.latitude')
+        $qb->select('m.stationName', 'm.longitude', 'm.latitude', 'm.cldc', 'm.stp' )
             ->from('App\Entity\Measurement', 'm')
             ->setMaxResults(500);
         $query = $qb->getQuery();
         $result = $query->getResult();
+        dump($result);
 
         //haal alleen maar nu de longitude en latitude.
         $points = [];
+        $stationinfo= [];
+
         foreach ($result as $index => $cord) {
             $longitude = $cord["longitude"];
             $latitude = $cord["latitude"];
+            $stationName = $cord["stationName"];
+            $cldc =$cord["cldc"];
+            $stp = $cord["stp"];
             $points[$index] = [$latitude, $longitude];
+            $stationinfo[$index] = [$stationName, $cldc, $stp];
         }
+        dump($stationinfo);
+
 
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            'points' => $points
+            'points' => $points,
+            "station" => $stationinfo
         ]);
     }
 }

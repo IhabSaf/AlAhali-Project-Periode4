@@ -37,17 +37,17 @@
                 <div class="nav">
 
                     {% if  app.user and app.user.admin == 1 %}
-                        <div class="sb-sidenav-menu-heading">Add and remove User</div>
+                        <div class="sb-sidenav-menu-heading"> User Control Panel</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutss" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Add and Remove User
+                            User Control Panel
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
 
                         <div class="collapse" id="collapseLayoutss" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ path('app_registration') }}">Add User</a>
-                                <a class="nav-link" href="{{ path('app_remove_user') }}">Remove User</a>
+                                <a class="nav-link" href="{{ path('app_remove_user') }}">User Management</a>
                             </nav>
                         </div>
                     {% endif %}

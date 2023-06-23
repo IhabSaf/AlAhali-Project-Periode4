@@ -13,10 +13,10 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
-            ->add('email')
-            ->add('password')
+            ->add('firstName:')
+            ->add('lastName:')
+            ->add('email:')
+            ->add('password:')
             ->add('isAdmin', CheckboxType::class, [
                 'label' => 'Is Admin',
                 'required' => false,

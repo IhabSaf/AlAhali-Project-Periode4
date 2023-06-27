@@ -47,6 +47,11 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Map</div>
+                    <a class="nav-link" href="{{ path('app_dashboard') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        World map
+                    </a>
 
                     {% if  app.user and app.user.admin == 1 %}
                         <div class="sb-sidenav-menu-heading"> User Control Panel</div>

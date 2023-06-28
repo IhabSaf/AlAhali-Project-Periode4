@@ -17,7 +17,7 @@ class Stations
      *
      * @ORM\Column(name="station_name", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private int $stationName;
 

@@ -56,43 +56,43 @@ class BackgroundDataFetcherCommand extends Command
 
         // Ophalen van station names uit huidige WEATHERDATA | vage constructie voor performance redenen. Als je in de onderste loop steeds in de database gaat kijken of er al een measurement bestaat
         // met de combinatie van stationnaam en timestamp maak je per measurement één doctrine query. Daar wordt het sloom van.
-//        $measurementStationNames = [];
-//        foreach ($weatherData as $measurementData) {
-//            $measurementStationNames[$measurementData['Station_name']] = $measurementData['Date'] . ' ' . $measurementData['Time'];;
-//        }
+        $measurementStationNames = [];
+        foreach ($weatherData as $measurementData) {
+            $measurementStationNames[$measurementData['Station_name']] = $measurementData['Date'] . ' ' . $measurementData['Time'];;
+        }
 //        // doctrine query om combinatie timestamp station name te vinden om later te kunnen kijken welke measurements al eerder zijn verstuurd.
-//        $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => array_keys($measurementStationNames), 'timestamp' => $measurementStationNames));
-//
-//        // Zet alle stationnamen in een array. Checken op keys door middel van isset in plaats van in_array met values is een fractie sneller....
-//        $existingMeasurements = [];
-//        foreach ($alreadyInMeasurementsArray as $measurement) {
-//            $existingMeasurements[$measurement->getStationName()->getStationName()] = 0;
-//        }
+        $stations = $this->entityManager->getRepository(Stations::class)->findBy(array('stationName' => array_keys($measurementStationNames)));
+        $alreadyInMeasurementsArray = $this->entityManager->getRepository(Measurement::class)->findBy(array('stationName' => $stations, 'timestamp' => $measurementStationNames));
 
-        //loop in de array van measurements. Maak nieuwe measurement aan in database als dat nodig is.
-//        foreach ($weatherData as $measurementData) {
-//            $stationName = $measurementData['Station_name'];
-//            // Bestaat de combinatie stationnaam + measurement timestamp al: niet opnieuw in database zetten.
-////            if(isset($existingMeasurements[$stationName])) continue;
-//
-//            $station = $this->entityManager->getRepository(Stations::class)->findOneBy(array('stationName' => $stationName));
-//            if(!$station) {
-//                $station = new Stations();
-//                $station->setStationName((int) $stationName);
-//                $station->setLatitude($measurementData['Latitude']);
-//                $station->setLongitude($measurementData['Longitude']);
-//                $this->entityManager->persist($station);
-//                $this->entityManager->flush();
-//            }
+//        // Zet alle stationnamen in een array. Checken op keys door middel van isset in plaats van in_array met values is een fractie sneller....
+        $existingMeasurements = [];
+        foreach ($alreadyInMeasurementsArray as $measurement) {
+            $existingMeasurements[$measurement->getStationName()->getStationName()] = 0;
+        }
+
+        //Loop in de array van measurements. Maak nieuwe measurement aan in database als dat nodig is.
+        foreach ($weatherData as $measurementData) {
+            $stationName = $measurementData['Station_name'];
+            // Bestaat de combinatie stationnaam + measurement timestamp al: niet opnieuw in database zetten.
+            if(isset($existingMeasurements[$stationName])) continue;
+
+            $station = $this->entityManager->getRepository(Stations::class)->findOneBy(array('stationName' => $stationName));
+            if(!$station) {
+                $station = new Stations();
+                $station->setStationName((int) $stationName);
+                $station->setLatitude($measurementData['Latitude']);
+                $station->setLongitude($measurementData['Longitude']);
+                $this->entityManager->persist($station);
+            }
 
             // nieuw measurement aanmaken
-//            $measurement = new Measurement();
-//            $measurement->setTimestamp(DateTime::createFromFormat('Y:m:d H:i:s', $measurementData['Date'] . ' ' . $measurementData['Time']));
-//            $measurement->setStationName($station);
-//            $measurement->setStp(floatval($measurementData['Stp']));
-//            $measurement->setCldc(floatval($measurementData['Cldc']));
-//            $this->entityManager->persist($measurement);
-//            $this->entityManager->flush();
-//        }
+            $measurement = new Measurement();
+            $measurement->setTimestamp(DateTime::createFromFormat('Y:m:d H:i:s', $measurementData['Date'] . ' ' . $measurementData['Time']));
+            $measurement->setStationName($station);
+            $measurement->setStp(floatval($measurementData['Stp']));
+            $measurement->setCldc(floatval($measurementData['Cldc']));
+            $this->entityManager->persist($measurement);
+        }
+        $this->entityManager->flush();
     }
 }

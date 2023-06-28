@@ -20,28 +20,28 @@ class Measurement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $measurementId;
+    private int $measurementId;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="timestamp", type="datetime", nullable=false)
      */
-    private $timestamp;
+    private DateTime $timestamp;
 
     /**
      * @var float
      *
      * @ORM\Column(name="stp", type="float", precision=10, scale=0, nullable=false)
      */
-    private $stp;
+    private float $stp;
 
     /**
      * @var float
      *
      * @ORM\Column(name="cldc", type="float", precision=10, scale=0, nullable=false)
      */
-    private $cldc;
+    private float $cldc;
 
     /**
      * @var Stations
@@ -51,7 +51,7 @@ class Measurement
      *   @ORM\JoinColumn(name="station_name", referencedColumnName="station_name")
      * })
      */
-    private $stationName;
+    private Stations $stationName;
 
     /**
      * @return int

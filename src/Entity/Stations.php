@@ -19,21 +19,21 @@ class Stations
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $stationName;
+    private int $stationName;
 
     /**
      * @var float
      *
      * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=false)
      */
-    private $longitude;
+    private float $longitude;
 
     /**
      * @var float
      *
      * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=false)
      */
-    private $latitude;
+    private float $latitude;
 
     /**
      * @return int

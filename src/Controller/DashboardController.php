@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +19,9 @@ class DashboardController extends AbstractController
 
         // Haal de langitude en latitude vanuit de database.
         $qb = $entityManager->createQueryBuilder();
-        $qb->select('m.stationName', 'm.longitude', 'm.latitude', 'm.cldc', 'm.stp' )
+        $qb->select('s.stationName', 's.longitude', 's.latitude', 'm.cldc', 'm.stp' )
             ->from('App\Entity\Measurement', 'm')
+            ->join('App\Entity\Stations','s', Join::WITH, 's.stationName = m.stationName')
             ->setMaxResults(500);
         $query = $qb->getQuery();
         $result = $query->getResult();

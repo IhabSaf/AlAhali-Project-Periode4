@@ -18,49 +18,49 @@ class Employees implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $employeeId;
+    private int $employeeId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=4, nullable=false, options={"fixed"=true})
      */
-    private $code;
+    private string $code;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_admin", type="boolean", nullable=true)
      */
-    private $isAdmin;
+    private bool $isAdmin;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
-    private $password;
+    private ?string $password;
 
 
     public function getRoles(): array

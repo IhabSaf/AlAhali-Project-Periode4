@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Measurement;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Join;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +29,9 @@ class CloudinessController extends AbstractController
         $hour_behind = $hour_behind.'59:59';
 
         $qb = $entityManager->createQueryBuilder();
-        $qb->select(' m.stationName','m.cldc', 'm.timestamp')
+        $qb->select(' s.stationName','m.cldc', 'm.timestamp')
             ->from('App\Entity\Measurement', 'm')
+            ->join('App\Entity\Stations','s', Join::WITH, 's.stationName = m.stationName')
             ->where('m.timestamp > :hour_now')
             ->andWhere('m.timestamp < :hour_behind')
             ->setParameter('hour_now',$hour_now)

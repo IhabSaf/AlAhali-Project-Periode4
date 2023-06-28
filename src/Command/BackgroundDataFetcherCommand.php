@@ -70,20 +70,20 @@ class BackgroundDataFetcherCommand extends Command
 //        }
 
         //loop in de array van measurements. Maak nieuwe measurement aan in database als dat nodig is.
-        foreach ($weatherData as $measurementData) {
-            $stationName = $measurementData['Station_name'];
-            // Bestaat de combinatie stationnaam + measurement timestamp al: niet opnieuw in database zetten.
-//            if(isset($existingMeasurements[$stationName])) continue;
-
-            $station = $this->entityManager->getRepository(Stations::class)->findOneBy(array('stationName' => $stationName));
-            if(!$station) {
-                $station = new Stations();
-                $station->setStationName((int) $stationName);
-                $station->setLatitude($measurementData['Latitude']);
-                $station->setLongitude($measurementData['Longitude']);
-                $this->entityManager->persist($station);
-                $this->entityManager->flush();
-            }
+//        foreach ($weatherData as $measurementData) {
+//            $stationName = $measurementData['Station_name'];
+//            // Bestaat de combinatie stationnaam + measurement timestamp al: niet opnieuw in database zetten.
+////            if(isset($existingMeasurements[$stationName])) continue;
+//
+//            $station = $this->entityManager->getRepository(Stations::class)->findOneBy(array('stationName' => $stationName));
+//            if(!$station) {
+//                $station = new Stations();
+//                $station->setStationName((int) $stationName);
+//                $station->setLatitude($measurementData['Latitude']);
+//                $station->setLongitude($measurementData['Longitude']);
+//                $this->entityManager->persist($station);
+//                $this->entityManager->flush();
+//            }
 
             // nieuw measurement aanmaken
 //            $measurement = new Measurement();
@@ -93,6 +93,6 @@ class BackgroundDataFetcherCommand extends Command
 //            $measurement->setCldc(floatval($measurementData['Cldc']));
 //            $this->entityManager->persist($measurement);
 //            $this->entityManager->flush();
-        }
+//        }
     }
 }

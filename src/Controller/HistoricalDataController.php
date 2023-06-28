@@ -135,7 +135,7 @@ class HistoricalDataController extends AbstractController
         $split = explode('-', $date); // Split date to array
         $year = $split[0]; $month = $split[1]; $day = $split[2];
         $monthDays = [1=>31, 2=>28, 3=>31, 4=>30, 5=>31, 6=>30, 7=>31, 8=>31, 9=>30, 10=>31, 11=>30, 12=>31]; // Days per month
-        
+
         // Leap year -> February has 29 days
         if(intval($split[0])%4 == 0){$monthDays = array_replace($monthDays, array(2 => 29));}
 
@@ -171,4 +171,84 @@ class HistoricalDataController extends AbstractController
         }
         return $xmlArray = [$stationName => $blocks];
     }
+
+    // NOTE vanuit hier en beneden dit is gemaakt voor de map als je op VIEW HISTORICAL DATA VANUIT DE MAP DAN WORDT DE ONDERSTAANDE CODE GETRIGERD.
+    // ER ZIJN AFHANKELIJKHEDEN VAN WAT ONDERAAN STAAT EN WAT AALDERT HEEFT GEMAAKT, DUS BIJ AANPASSINGEN HOU EVEN REKEKING MEE.
+
+
+    #[Route('/historical/data/1', name: 'app_historical_data_map', methods: ['POST', 'GET'])]
+    public function map(Request $request, EntitymanagerInterface $entityManager):Response
+    {
+        // Retrieve the station ID from the request
+        $station = trim($request->request->get('stationId'), ' " ');
+
+
+        // Collect all average stp's in an array
+        $today = new DateTime();
+        $today->modify('+1 day');
+        $today = $today->format('Y-m-d');
+        $fourWeeks = 28;
+        $dataPerDay = [];
+        $days = [];
+        for ($i = 0; $i < $fourWeeks; $i++) {
+            // Dataset below 990mBar | Average of a single day
+            $qb = $entityManager->createQueryBuilder();
+            $qb
+                ->select('avg(m.stp) as stp')
+                ->from('App\Entity\Measurement', 'm')
+                ->where('m.timestamp < :today')
+                ->andWhere('m.timestamp > :yesterday')
+                ->andWhere('m.stationName = :station_name')
+                ->andWhere('m.stp < 991')
+                ->setParameter('today', $today . " 00:00:00")
+                ->setParameter('yesterday', $this->yesterday($today) . " 00:00:00")
+                ->setParameter('station_name', $station);
+            $query = $qb->getQuery();
+            $lowResults = $query->getResult();
+
+            // Dataset above 1030mBar | Average of a single day
+            $qb = $entityManager->createQueryBuilder();
+            $qb
+                ->select('avg(m.stp) as stp')
+                ->from('App\Entity\Measurement', 'm')
+                ->where('m.timestamp < :today')
+                ->andWhere('m.timestamp > :yesterday')
+                ->andWhere('m.stationName = :station_name')
+                ->andWhere('m.stp > 1029')
+                ->setParameter('today', $today . " 00:00:00")
+                ->setParameter('yesterday', $this->yesterday($today) . " 00:00:00")
+                ->setParameter('station_name', $station);
+            $query = $qb->getQuery();
+            $highResults = $query->getResult();
+
+
+            // Put all data and dates in arrays to be sent to the template
+            $lowDataPerDay[$i] = $lowResults[0];
+            $highDataPerDay[$i] = $highResults[0];
+            $today = $this->yesterday($today);
+            $dates[$i] = $this->dayMonthFormat($today);
+            $split = explode('-', $today);
+            $days[$i] = $split[2];
+            $months[$i] = $split[1];
+        }
+
+            $xml = ArrayToXml::convert($this->createXMLArray("name".$station, array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
+            $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
+            fwrite($xmlFile, $xml);
+            fclose($xmlFile);
+
+
+        return $this->render('historical_data/chartPerPointer.html.twig', [
+            'controller_name' => 'HistoricalDataController',
+            'selected_station' => $station,
+            'formFilled' => true,
+            'lowFormData' => array_reverse($lowDataPerDay),
+            'highFormData' => array_reverse($highDataPerDay),
+            'formDays' => array_reverse($days),
+            'formMonths' => array_reverse($months),
+            'formDates' => array_reverse($dates)
+        ]);
+    }
+
 }
+

@@ -23,6 +23,7 @@ class RemoveUserController extends AbstractController
         // haal alle user vna de database.
         $userRepository = $entityManager->getRepository(Employees::class);
         $users = $userRepository->findAll();
+        dump($users);
 
         return $this->render('remove_user/index.html.twig', [
             'controller_name' => 'RemoveUserController',

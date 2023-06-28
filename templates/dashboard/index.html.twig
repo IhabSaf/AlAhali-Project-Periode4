@@ -29,10 +29,15 @@
         var marker = L.marker([point[0], point[1]]).addTo(map);
 
         marker.bindPopup("Station name: " + stationName[index] + ","
-                                          +"\nCloudiness: " +  recentValues[index][0] + ",   "
-                                          +"\nAir pressure: " +  recentValues[index][1] + ", "
-                                          + "\nLongitude: "  + point[0] + ", "
-                                          + "\nLatitude: "   + point[1]);
+            +"\nCloudiness: " +  recentValues[index][0] + ",   "
+            +"\nAir pressure: " +  recentValues[index][1] + ", "
+            + "\nLongitude: "  + point[0] + ", "
+            + "\nLatitude: "   + point[1] +
+            '<form action="{{ path("app_historical_data_map") }}" method="POST">'
+            + '<input type="hidden" name="stationId" value="' + stationName[index] + '">' // Add a hidden input field to store the station ID
+            + '<button type="submit" style="background-color: #50a4ad; color: #fff; border: none; padding: 8px 16px; cursor: pointer;">View Historical Data</button>'
+            + '</form>'
+        );
     });
 </script>
 

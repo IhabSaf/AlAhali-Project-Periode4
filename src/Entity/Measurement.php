@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Measurement
  *
- * @ORM\Table(name="measurement")
+ * @ORM\Table(name="measurement", indexes={@ORM\Index(name="FK_measurement_station_idx", columns={"station_name"})})
  * @ORM\Entity
  */
 class Measurement
@@ -22,32 +23,11 @@ class Measurement
     private $measurementId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="station_name", type="string", length=10, nullable=false)
-     */
-    private $stationName;
-
-    /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="timestamp", type="datetime", nullable=false)
      */
     private $timestamp;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $longitude;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $latitude;
 
     /**
      * @var float
@@ -64,60 +44,14 @@ class Measurement
     private $cldc;
 
     /**
-     * @param int $measurementId
+     * @var Stations
+     *
+     * @ORM\ManyToOne(targetEntity="Stations")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="station_name", referencedColumnName="station_name")
+     * })
      */
-    public function setMeasurementId(int $measurementId): void
-    {
-        $this->measurementId = $measurementId;
-    }
-
-    /**
-     * @param string $stationName
-     */
-    public function setStationName(string $stationName): void
-    {
-        $this->stationName = $stationName;
-    }
-
-    /**
-     * @param \DateTime $timestamp
-     */
-    public function setTimestamp(\DateTime $timestamp): void
-    {
-        $this->timestamp = $timestamp;
-    }
-
-    /**
-     * @param float $longitude
-     */
-    public function setLongitude(float $longitude): void
-    {
-        $this->longitude = $longitude;
-    }
-
-    /**
-     * @param float $latitude
-     */
-    public function setLatitude(float $latitude): void
-    {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @param float $stp
-     */
-    public function setStp(float $stp): void
-    {
-        $this->stp = $stp;
-    }
-
-    /**
-     * @param float $cldc
-     */
-    public function setCldc(float $cldc): void
-    {
-        $this->cldc = $cldc;
-    }
+    private $stationName;
 
     /**
      * @return int
@@ -128,35 +62,27 @@ class Measurement
     }
 
     /**
-     * @return string
+     * @param int $measurementId
      */
-    public function getStationName(): string
+    public function setMeasurementId(int $measurementId): void
     {
-        return $this->stationName;
+        $this->measurementId = $measurementId;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getTimestamp(): \DateTime
+    public function getTimestamp(): DateTime
     {
         return $this->timestamp;
     }
 
     /**
-     * @return float
+     * @param DateTime $timestamp
      */
-    public function getLongitude(): float
+    public function setTimestamp(DateTime $timestamp): void
     {
-        return $this->longitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLatitude(): float
-    {
-        return $this->latitude;
+        $this->timestamp = $timestamp;
     }
 
     /**
@@ -168,10 +94,44 @@ class Measurement
     }
 
     /**
+     * @param float $stp
+     */
+    public function setStp(float $stp): void
+    {
+        $this->stp = $stp;
+    }
+
+    /**
      * @return float
      */
     public function getCldc(): float
     {
         return $this->cldc;
     }
+
+    /**
+     * @param float $cldc
+     */
+    public function setCldc(float $cldc): void
+    {
+        $this->cldc = $cldc;
+    }
+
+    /**
+     * @return Stations
+     */
+    public function getStationName(): Stations
+    {
+        return $this->stationName;
+    }
+
+    /**
+     * @param Stations $stationName
+     */
+    public function setStationName(Stations $stationName): void
+    {
+        $this->stationName = $stationName;
+    }
+
+
 }

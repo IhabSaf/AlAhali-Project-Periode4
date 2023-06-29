@@ -8,9 +8,9 @@ const lowStpButton = document.getElementById('button-pressure-low');
 
 // create const for the table that is hidden at the start
 const tableLow = document.getElementById('table-data-highStp');
-const tableHigh = document.getElementById('table-data-lowStp');
 
-// Start:  this is all for the HIGH pressure
+
+// Start:  this is all for the air pressure
 const stationData = []
 for (const key in Stp) {
     if (Stp.hasOwnProperty(key)) {
@@ -18,6 +18,8 @@ for (const key in Stp) {
     }
 }
 
+
+const threshold = 1030;
 
 const stationNames = Object.keys(stationData).map((key) => stationData[key].stationName);
 
@@ -35,17 +37,15 @@ for(const index in timestamps) {
 
     // format the timestamp into a string with only the time
     const formattedTimestamp = timestamp.toLocaleString("nl-NL", {
-        // year: "2-digit",
-        // month: "2-digit",
-        // day: "2-digit",
+
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
     });
     convertedDate.push(formattedTimestamp)
-
 }
-console.log(stp)
+
+const colors = stp.map(value => (value < threshold ? 'rgba(18,174,204)' : 'rgb(75, 35, 67)'));
 
 //concatenation of stationname and the time of the data arrival
 const statAndDate = convertedDate.map((value, index) => value.toString() + " Stat: "+ stationNames[index]);
@@ -62,7 +62,7 @@ var myLineChart = new Chart(ctx, {
         datasets: [{
             label: "mBar",
             lineTension: 0.3,
-            backgroundColor: "rgba(18,174,204)",
+            backgroundColor: colors,
             borderColor: "rgba(18,174,204)",
             pointRadius: 5,
             pointBackgroundColor: "rgba(2,117,216,1)",

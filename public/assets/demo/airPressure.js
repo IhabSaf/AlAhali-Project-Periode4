@@ -18,6 +18,8 @@ for (const key in Stp) {
     }
 }
 
+const threshold = 1029
+
 const stationNames = Object.keys(stationData).map((key) => stationData[key].stationName);
 const stp = Object.keys(stationData).map((key) => stationData[key].stp);
 const timestampObjects = Object.values(stationData).map((station) => station.timestamp);
@@ -40,6 +42,7 @@ const statAndDate = convertedDate.map((value, index) => value.toString() + " Sta
 // get the lowest & highest number for the y of the graph to always make all the statistics visible
 const lowestPoint = Math.floor(Math.min(...stp) - 50);
 const highestPoint = Math.floor(Math.max(...stp) + 50);
+const colors = stp.map(value => (value < threshold ? 'rgba(18,174,204)': 'rgb(75, 35, 67'));
 
 var ctx = document.getElementById("myStpChart");
 
@@ -50,7 +53,7 @@ var myLineChart = new Chart(ctx, {
         datasets: [{
             label: "mBar",
             lineTension: 0.3,
-            backgroundColor: "rgba(18,174,204)",
+            backgroundColor: colors,
             borderColor: "rgba(18,174,204)",
             pointRadius: 5,
             pointBackgroundColor: "rgba(2,117,216,1)",
@@ -79,7 +82,7 @@ var myLineChart = new Chart(ctx, {
                 ticks: {
                     min: lowestPoint,
                     max: highestPoint,
-                    maxTicksLimit: 5
+                    maxTicksLimit: 20
                 },
                 gridLines: {
                     color: "rgba(0, 0, 0, .125)",
@@ -91,7 +94,7 @@ var myLineChart = new Chart(ctx, {
         },
         tooltips: {
             callbacks: {
-                title: function(tooltipItem, data) {
+                title: function(tooltipItem) {
                     return stationNames[tooltipItem[0].index];
                 },
                 label: function(tooltipItem, data) {

@@ -8,7 +8,7 @@
 
 
 <div class="example-wrapper">
-    <p > Test</p>
+
 
 
     <p id="current-station">Current station: {{ selected_station }}</p>
@@ -25,8 +25,6 @@
             labels = {{ formDates|json_encode|raw }};
             lowStps = {{ lowFormData|json_encode|raw }};
             highStps = {{ highFormData|json_encode|raw }};
-        console.log('lowFormData:', {{ lowFormData|json_encode|raw }});
-        console.log('highFormData:', {{ highFormData|json_encode|raw }});
 
     </script>
     </div>

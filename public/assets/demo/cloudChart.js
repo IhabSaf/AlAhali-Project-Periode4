@@ -93,6 +93,17 @@ var myLineChart = new Chart(ctx, {
             legend: {
                 display: false
             },
+        tooltips: {
+            callbacks: {
+                title: function(tooltipItem) {
+                    return stationNames[tooltipItem[0].index];
+                },
+                label: function(tooltipItem, data) {
+                    var index = tooltipItem.index;
+                    var value = data.datasets[tooltipItem.datasetIndex].data[index];
+                    return 'mBar: ' + value + ' - ' + convertedDate[index];                }
+            }
+        }
         },
 
 });

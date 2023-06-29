@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Measurement;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,38 +17,44 @@ class DashboardController extends AbstractController
         // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
         if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
 
-
-        // Haal de langitude en latitude vanuit de database.
-        $qb = $entityManager->createQueryBuilder();
-        $qb->select('s.stationName', 's.longitude', 's.latitude', 'm.cldc', 'm.stp' )
-            ->from('App\Entity\Measurement', 'm')
-            ->join('App\Entity\Stations','s', Join::WITH, 's.stationName = m.stationName')
-            ->setMaxResults(500);
+        //Haal per station de meest recente timestamp op. Hiermee kan in de volgende query de rest van de waardes worden opgehaald.
+        $repository = $entityManager->getRepository(Measurement::class);
+        $qb = $repository->createQueryBuilder('m');
+        $qb->select('s.stationName', 'MAX(m.timestamp) as maxTimestamp')
+            ->innerJoin('App\Entity\Stations', 's', Join::WITH, 's.stationName = m.stationName')
+            ->groupBy('s.stationName');
         $query = $qb->getQuery();
         $result = $query->getResult();
-        dump($result);
 
-        //haal alleen maar nu de longitude en latitude.
-        $points = [];
-        $stationinfo= [];
+        //Haal nu de bijbehorende data op voor de meest recente measurement per station | Inclusief longitude en latitude voor performance
+        $qb2 = $repository->createQueryBuilder('m');
+        $qb2->select('s.stationName, m.timestamp, m.stp, m.cldc, s.longitude, s.latitude');
+        $qb2->innerJoin('App\Entity\Stations', 's', Join::WITH, 's.stationName = m.stationName');
 
-        foreach ($result as $index => $cord) {
-            $longitude = $cord["longitude"];
-            $latitude = $cord["latitude"];
-            $stationName = $cord["stationName"];
-            $cldc =$cord["cldc"];
-            $stp = $cord["stp"];
-            $points[$index] = [$latitude, $longitude];
-            $stationinfo[$index] = [$stationName, $cldc, $stp];
+        //lange where and constructie maken om de juiste measurements op te halen.
+        $whereCondition = [];
+        foreach($result as $record) {
+            $whereCondition[] = sprintf("m.stationName = '%s' AND m.timestamp = '%s'", $record['stationName'], $record['maxTimestamp']);
         }
-        dump($stationinfo);
+        $whereClause = implode(' OR ', $whereCondition);
+        $qb2->where($whereClause);
+        $measurements = $qb2->getQuery()->getResult();
 
-
-
+        $points = [];
+        $stationInfo= [];
+        foreach ($measurements as $index => $measurement) {
+            $longitude = $measurement['longitude'];
+            $latitude = $measurement['latitude'];
+            $stationName = $measurement['stationName'];
+            $cldc = $measurement['cldc'];
+            $stp = $measurement['stp'];
+            $points[$index] = [$latitude, $longitude];
+            $stationInfo[$index] = [$stationName, $cldc, $stp];
+        }
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'points' => $points,
-            "station" => $stationinfo
+            "station" => $stationInfo
         ]);
     }
 }

@@ -11,6 +11,7 @@ const tableHigh = document.getElementById('table-data-lowStp');
 
 // Start:  this is all for the HIGH pressure
 const stationData = [];
+
 for (const key in Stp) {
     if (Stp.hasOwnProperty(key)) {
         stationData.push(Stp[key]);

@@ -42,7 +42,7 @@ const statAndDate = convertedDate.map((value, index) => value.toString() + " Sta
 // get the lowest & highest number for the y of the graph to always make all the statistics visible
 const lowestPoint = Math.floor(Math.min(...stp) - 50);
 const highestPoint = Math.floor(Math.max(...stp) + 50);
-const colors = stp.map(value => (value < threshold ? 'rgba(18,174,204)': 'rgb(75, 35, 67'));
+const colors = stp.map(value => (value < threshold ? 'rgb(18,174,204)': 'rgb(75, 35, 67)'));
 
 var ctx = document.getElementById("myStpChart");
 

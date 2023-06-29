@@ -30,7 +30,7 @@ class BackgroundDataFetcherCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // Op het moment dat de script aan is, dan wordt dit while loop getrigerd om de data steeds vanuit de IWA op te halen.
+        // Op het moment dat de script aan is, dan wordt dit while loop getriggerd om de data steeds vanuit de IWA op te halen.
         while(true){
             set_time_limit(60);
             $httpClient = HttpClient::create();
@@ -83,6 +83,7 @@ class BackgroundDataFetcherCommand extends Command
                 $station->setLatitude($measurementData['Latitude']);
                 $station->setLongitude($measurementData['Longitude']);
                 $this->entityManager->persist($station);
+                $this->entityManager->flush();
             }
 
             // nieuw measurement aanmaken

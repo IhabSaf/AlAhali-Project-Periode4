@@ -7,6 +7,7 @@ use App\Entity\Measurement;
 use Spatie\ArrayToXml\ArrayToXml;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DownloadXmlController extends AbstractController
 {
@@ -16,13 +17,16 @@ class DownloadXmlController extends AbstractController
         // Als de user niet ingelogd dan wordt hij verwijst weer naar de inlog pagina
         if (!$this->getUser()) {return $this->redirectToRoute('app_login');}
 
-        $qb = $em->createQueryBuilder();
-        $qb
-            ->select('m')
-            ->from('App\Entity\Measurement', 'm')
-        ;
-        $query = $qb->getQuery();
-        $Results = $query->getArrayResult();
+//        $qb = $em->createQueryBuilder();
+//        $qb
+//            ->select('m')
+//            ->from('App\Entity\Measurement', 'm')
+//            ->join('App\Entity\Stations', 's', Join::WITH, 'm.stationName = s.stationName')
+//        ;
+//        $query = $qb->getQuery();
+//        $Results = $query->getArrayResult();
+        $Results = $em->getRepository(Measurement::class)->findAll();
+        dump($Results);
 
         $xml = ArrayToXml::convert(['Historical_data_Ahli_Bank' => $this->createXMLArray($Results)]);
         $xmlFile = fopen('../templates/four_weeks_xml/four_weeks_data.xml', 'w') or die("File can not be accessed");

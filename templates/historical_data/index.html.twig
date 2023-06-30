@@ -6,31 +6,34 @@
 
 <link href="{{ asset('css/HistoricalData.css') }}" rel="stylesheet" />
 
+<div class="fake-nav-bar"></div>
 
-<div class="example-wrapper">
+<div class="content-fake-side-bar-top-grid">
+    <div class="fake-side-bar"></div>
 
-    <div>
-        {{ form(form) }}
-        <p id="current-station">Current station: {{ selected_station }}</p>
+    <div class="example-wrapper">
+        <div class="chart-buttons-wrapper">
+            {{ form(form) }}
+            <p id="current-station">Current station: {{ selected_station }}</p>
 
-        <div>
-            <canvas id="myChart"></canvas>
+            <div class="chart-wrapper">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="js-stp-date">
+            <script>
+                let labels = [];
+                let lowStps = [];
+                let highStps = [];
+                {% if formFilled %}
+                    labels = {{ formDates|json_encode|raw }};
+                    lowStps = {{ lowFormData|json_encode|raw }};
+                    highStps = {{ highFormData|json_encode|raw }};
+                {% endif %}
+            </script>
+            </div>
+            <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
         </div>
-        <div class="js-stp-date">
-        <script>
-            let labels = [];
-            let lowStps = [];
-            let highStps = [];
-            {% if formFilled %}
-                labels = {{ formDates|json_encode|raw }};
-                lowStps = {{ lowFormData|json_encode|raw }};
-                highStps = {{ highFormData|json_encode|raw }};
-            {% endif %}
-        </script>
-        </div>
-
-        <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
-
     </div>
+
 </div>
 {% endblock %}

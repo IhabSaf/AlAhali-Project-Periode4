@@ -41,14 +41,5 @@
     background-color: #4B2343;
 }
 
-.download-xml-button a {
-    color: white;
-    text-decoration: none;
-
-}
-
-.download-xml-button:hover {
-    background-color: #4B2343;
-}
 #historical_station_select_Submit { float: left; margin-right: 1vw; }
-#current-station { float: right; float: top; }
+#current-station { float: right;}

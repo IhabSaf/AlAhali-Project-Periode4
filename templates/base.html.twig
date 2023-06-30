@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,7 +10,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="icon" href="https://ahli.com/wp-content/uploads/2019/08/ahli-logo.png">
     <link href="{{ asset('css/stylesdash.css') }}" rel="stylesheet" />
-    <link rel="icon" href="https://ahli.com/wp-content/uploads/2019/08/ahli-logo.png">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 
     <title>Dashboard</title>
@@ -49,49 +46,61 @@
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Map</div>
                     <a class="nav-link" href="{{ path('app_dashboard') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-map"></i></div>
                         World map
                     </a>
 
                     {% if  app.user and app.user.admin == 1 %}
                         <div class="sb-sidenav-menu-heading"> User Control Panel</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutss" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars" aria-hidden="true"></i></div>
                             User Control Panel
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div>
                         </a>
 
                         <div class="collapse" id="collapseLayoutss" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{ path('app_registration') }}">Add User</a>
-                                <a class="nav-link" href="{{ path('app_remove_user') }}">User Management</a>
+                                <a class="nav-link" href="{{ path('app_registration') }}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus" aria-hidden="true"></i></div>
+                                    Add User
+                                </a>
+                                <a class="nav-link" href="{{ path('app_remove_user') }}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
+                                    User Management
+                                </a>
                             </nav>
                         </div>
                     {% endif %}
                     <div class="sb-sidenav-menu-heading">History</div>
                     <a class="nav-link" href="{{ path('app_historical_data') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-history" aria-hidden="true"></i></div>
                         Historical data
                     </a>
 
                     <div class="sb-sidenav-menu-heading">Real-time monitoring</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-bars" aria-hidden="true"></i></div>
                         Real-time data
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div>
                     </a>
 
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="{{ path('app_cloudiness') }}">Cloudiness</a>
-                            <a class="nav-link" href="{{ path('app_airpressure') }}">Air pressure</a>
+                            <a class="nav-link" href="{{ path('app_cloudiness') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bar-chart" aria-hidden="true"></i></div>
+                                Cloudiness
+                            </a>
+                            <a class="nav-link" href="{{ path('app_airpressure') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bar-chart" aria-hidden="true"></i></div>
+                                Air pressure
+                            </a>
                         </nav>
                     </div>
 
                     <div class="sb-sidenav-menu-heading">Addons</div>
                     <a class="nav-link" href="{{ path('download_xml_four_weeks') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        Downloadable .xml
+                        <div class="sb-nav-link-icon"><i class="fas fa-download" aria-hidden="true"></i></div>
+                        Download xml file
                     </a>
 
                 </div>

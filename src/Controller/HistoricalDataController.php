@@ -16,15 +16,6 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class HistoricalDataController extends AbstractController
 {
-
-    #[Route('/historical/data/dowload', name: 'app_historical_data_download')]
-    public function download(){
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->file('../templates/historical_data/historical_data.xml');
-    }
-
     /**
      * Render a page with form to ask for a station_name.
      * When the form is filled in, a chart will be shown with average
@@ -95,11 +86,6 @@ class HistoricalDataController extends AbstractController
                 $days[$i] = $split[2];
                 $months[$i] = $split[1];
                 }
-                
-                $xml = ArrayToXml::convert($this->createXMLArray("name".$data["stationName"], array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
-                $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
-                fwrite($xmlFile, $xml);
-                fclose($xmlFile);
 
                 // Render page with data
                 return $this->render('historical_data/index.html.twig', [
@@ -152,7 +138,7 @@ class HistoricalDataController extends AbstractController
         if($day < 10) $day = '0'.intval($day);
         if($month < 10) $month = '0'.intval($month);
 
-        return strval($year).'-'.strval($month).'-'.strval($day);
+        return $year .'-'. $month .'-'. $day;
     }
 
     public function dayMonthFormat(string $date): string {
@@ -160,17 +146,6 @@ class HistoricalDataController extends AbstractController
         return $split[2].'-'.$split[1];
     }
 
-    public function createXMLArray(string $stationName, array $dates, array $lowDataPerDay, array $highDataPerDay): array{
-        $blocks = [];
-        $fourWeeks = 28;
-        for($i = 0; $i < $fourWeeks; $i++){
-            $blocks["date_".$dates[$i]] = [
-                'lowStp' => $lowDataPerDay[$i]['stp'],
-                'highStp' => $highDataPerDay[$i]['stp']
-            ];
-        }
-        return $xmlArray = [$stationName => $blocks];
-    }
 
     // NOTE vanuit hier en beneden dit is gemaakt voor de map als je op VIEW HISTORICAL DATA VANUIT DE MAP DAN WORDT DE ONDERSTAANDE CODE GETRIGERD.
     // ER ZIJN AFHANKELIJKHEDEN VAN WAT ONDERAAN STAAT EN WAT AALDERT HEEFT GEMAAKT, DUS BIJ AANPASSINGEN HOU EVEN REKEKING MEE.
@@ -181,7 +156,6 @@ class HistoricalDataController extends AbstractController
     {
         // Retrieve the station ID from the request
         $station = trim($request->request->get('stationId'), ' " ');
-
 
         // Collect all average stp's in an array
         $today = new DateTime();
@@ -231,12 +205,6 @@ class HistoricalDataController extends AbstractController
             $days[$i] = $split[2];
             $months[$i] = $split[1];
         }
-
-            $xml = ArrayToXml::convert($this->createXMLArray("name".$station, array_reverse($dates), $lowDataPerDay, $highDataPerDay), 'Historical_data_Ahli_Bank');
-            $xmlFile = fopen('../templates/historical_data/historical_data.xml', 'w') or die("File can not be accessed");
-            fwrite($xmlFile, $xml);
-            fclose($xmlFile);
-
 
         return $this->render('historical_data/chartPerPointer.html.twig', [
             'controller_name' => 'HistoricalDataController',

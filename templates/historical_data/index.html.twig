@@ -9,29 +9,28 @@
 
 <div class="example-wrapper">
 
-
-    {{ form(form) }}
-    <p id="current-station">Current station: {{ selected_station }}</p>
-
     <div>
-        <canvas id="myChart"></canvas>
-    </div>
-    <div class="js-stp-date">
-    <script>
-        let labels = [];
-        let lowStps = [];
-        let highStps = [];
-        {% if formFilled %}
-            labels = {{ formDates|json_encode|raw }};
-            lowStps = {{ lowFormData|json_encode|raw }};
-            highStps = {{ highFormData|json_encode|raw }};
-        {% endif %}
-    </script>
-    </div>
+        {{ form(form) }}
+        <p id="current-station">Current station: {{ selected_station }}</p>
 
-    <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="js-stp-date">
+        <script>
+            let labels = [];
+            let lowStps = [];
+            let highStps = [];
+            {% if formFilled %}
+                labels = {{ formDates|json_encode|raw }};
+                lowStps = {{ lowFormData|json_encode|raw }};
+                highStps = {{ highFormData|json_encode|raw }};
+            {% endif %}
+        </script>
+        </div>
 
-    <div class="download-xml-button">
-        <a href="./data/download" target="_blank">Download .XML-file</a>
+        <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
+
     </div>
+</div>
 {% endblock %}

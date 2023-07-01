@@ -26,6 +26,12 @@ button:hover {
     background-color: #4B2343;
 }
 
+.chart-wrapper {
+    display: grid;
+    height: 40vh;
+    width: 60vw;
+}
+
 table, th, td {
 
     padding-bottom: 10px;

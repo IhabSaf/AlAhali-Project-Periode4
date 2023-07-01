@@ -25,6 +25,11 @@ button:hover {
     transition: 0.7s;
     background-color: #4B2343;
 }
+.chart-wrapper {
+    display: grid;
+    height: 40vh;
+    width: 60vw;
+}
 table, th, td {
     border:1px solid black;
 }

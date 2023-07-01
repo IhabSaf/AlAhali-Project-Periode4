@@ -34,7 +34,16 @@
     transition: 0.7s;
     background-color: #4B2343;
 }
-.example-wrapper { align-content: center; margin: 1em auto; max-width: 900px; width: 100%; font: 18px/1.5 sans-serif; padding-top: 4%; text-align: left}
+.example-wrapper {
+    background-color: #e8e8e8;
+    align-content: center;
+    margin: 1em auto;
+    max-width: 900px;
+    max-height: 600px;
+    width: 100%; font: 18px/1.5 sans-serif;
+    padding: 4%;
+    border-radius: 3%;
+    text-align: left}
 
 /* Add this CSS code to your registration.css file */
 .isAdmin-label {

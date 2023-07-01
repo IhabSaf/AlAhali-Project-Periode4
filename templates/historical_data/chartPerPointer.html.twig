@@ -8,9 +8,6 @@
 
 
 <div class="example-wrapper">
-
-
-
     <p id="current-station">Current station: {{ selected_station }}</p>
 
     <div>
@@ -29,10 +26,10 @@
     </script>
     </div>
 
-    <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
 
     <div class="download-xml-button">
         <a class="nav-link" href="{{ path('app_dashboard') }}">Back To The Map</a>
     </div>
-
+    <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
+</div>
 {% endblock %}

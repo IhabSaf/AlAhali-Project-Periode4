@@ -12,8 +12,8 @@
         <div class="chart-buttons-wrapper">
             {{ form(form) }}
             <p id="current-station">Current station: {{ selected_station }}</p>
-
-            <div class="chart-wrapper">
+        </div>
+            <div class="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
             <div class="js-stp-date">
@@ -29,8 +29,8 @@
             </script>
             </div>
             <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
-        </div>
-    </div>
+
+
 
 
 {% endblock %}

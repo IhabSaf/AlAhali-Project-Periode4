@@ -4,47 +4,47 @@
 
 {% block body %}
     <div class="container">
-        <h1>Hello RemoveUserController!</h1>
+        <link href="{{ asset('css/removeUser.css') }}" rel="stylesheet" />
 
         <table style="width: 100%; border-collapse: collapse;">
             <thead>
             <tr>
-                <th style="border: 1px solid #ccc; padding: 8px;">User Name</th>
-                <th style="border: 1px solid #ccc; padding: 8px;">Permission</th>
-                <th style="border: 1px solid #ccc; padding: 8px;">Remove User</th>
-                <th style="border: 1px solid #ccc; padding: 8px;">Change Email</th>
-                <th style="border: 1px solid #ccc; padding: 8px;">Change Password</th>
+                <th>Username</th>
+                <th>Permission</th>
+                <th>Remove User</th>
+                <th>Change Email</th>
+                <th>Change Password</th>
 
             </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td style="border: 1px solid #ccc; padding: 8px;">{{ user.getEmail() }}</td>
-                    <td style="border: 1px solid #ccc; padding: 8px;">
+                    <td>{{ user.getEmail() }}</td>
+                    <td>
                         {% if user.IsAdmin() == 1 %}
                             Admin
                         {% else %}
                             Member
                         {% endif %}
                     </td>
-                    <td style="border: 1px solid #ccc; padding: 8px;">
+                    <td>
                         <form action="{{ path('app_remove_user_delete', {'id': user.getEmployeeId}) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this user?');">
-                            <button type="submit" style="background-color: #50a4ad; color: #fff; border: none; padding: 8px 16px; cursor: pointer;">Remove</button>
+                            <button type="submit" >Remove</button>
                         </form>
                     </td>
 
-                    <td style="border: 1px solid #ccc; padding: 8px;">
-                        <form action="{{ path('app_remove_user_change_email', {'id': user.getEmployeeId}) }}" method="POST">
+                    <td>
+                        <form action="{{ path('app_remove_user_change_email', {'id': user.getEmployeeId}) }}" method="POST" onsubmit="return confirm('Are you sure you want to change the Email of this user?');">
                             <input type="text" name="email" placeholder="New Email">
-                            <button type="submit" style="background-color: #50a4ad; color: #fff; border: none; padding: 8px 16px; cursor: pointer;">Change Email</button>
+                            <button type="submit">Change Email</button>
                         </form>
                     </td>
 
-                    <td style="border: 1px solid #ccc; padding: 8px;">
-                        <form action="{{ path('app_remove_user_change_password', {'id': user.getEmployeeId}) }}" method="POST">
+                    <td>
+                        <form action="{{ path('app_remove_user_change_password', {'id': user.getEmployeeId}) }}" method="POST" onsubmit="return confirm('Are you sure you want to change the password this user?');">
                             <input type="password" name="password" placeholder="New Password">
-                            <button type="submit" style="background-color: #50a4ad; color: #fff; border: none; padding: 8px 16px; cursor: pointer;">Change Password</button>
+                            <button type="submit" >Change Password</button>
                         </form>
                     </td>
                 </tr>

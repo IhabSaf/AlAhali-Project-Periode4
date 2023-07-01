@@ -22,8 +22,16 @@
     background-color: #4B2343;
 }
 
-#historical_station_select_Submit { float: left; margin-right: 1vw; }
-#current-station { float: right;}
+#historical_station_select_Submit {
+    float: left;
+    margin-right: 1vw;
+
+}
+#current-station {
+    padding-top:1%;
+    float: right;
+
+}
 .chart-buttons-wrapper {
     display: grid;
     justify-content: center;

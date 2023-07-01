@@ -1,0 +1,24 @@
+.fake-nav-bar {
+    height: 56px;
+    width: 100vw;
+}
+.fake-side-bar {
+    height: calc(100vh - 56px);
+    width: 225px;
+}
+.content-fake-side-bar-top-grid {
+    display: grid;
+    grid-template-columns: 225px 1fr;
+}
+
+@media screen and (width < 992px) {
+    .content-fake-side-bar-top-grid {
+        grid-template-columns: 0 1fr;
+    }
+}
+
+@media screen and (width >= 992px) {
+    .content-fake-side-bar-top-grid {
+        grid-template-columns: 225px 1fr;
+    }
+}

@@ -19,6 +19,7 @@
 .chart-container {
     border: 1px solid black; /* Set the border style */
     padding: 10px; /* Add some padding to the container if desired */
+    border-radius: 2%;
 }
 #historical_station_select_Submit:hover {
     transition: 0.7s;
@@ -31,14 +32,15 @@
 
 }
 #current-station {
-    padding-top:1%;
-    float: right;
+    padding:1%;
+    float: left;
 
 }
 .chart-buttons-wrapper {
+
     display: grid;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+
 }
 .chart-wrapper {
     display: grid;
@@ -47,6 +49,7 @@
 }
 
 .download-xml-button{
+
     align-content: center;
     padding: 0.5em 1em;
     font-size: 16px;

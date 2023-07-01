@@ -11,7 +11,7 @@
 
     <div class="example-wrapper">
 
-
+        <div>
         <form method="post" action="{{ path('app_registration') }}">
             {{ form_start(form) }}
 
@@ -45,11 +45,12 @@
             </div>
 
             <div class="form-group">
-                <button type="submit">Add user</button>
+                <button type="submit" onsubmit="return confirm('Are you sure you want to create this user?');">Add user</button>
             </div>
 
             {{ form_end(form) }}
         </form>
+        </div>
 
     </div>
 {% endblock %}

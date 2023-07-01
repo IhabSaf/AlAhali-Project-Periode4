@@ -2,8 +2,29 @@
 body {
     background-color: #FFFFFF;
 }
-.example-wrapper { margin: 1em auto; max-width: 900px; width: 100%; font: 18px/1.5 sans-serif; padding-top: 4%; text-align: center}
-.example-wrapper code { background: #F5F5F5; padding: 2px 6px;}
+.example-wrapper {
+    margin: 1em auto;
+    max-width: 900px;
+    height: 40vh;
+    width: 60vw;
+    font: 18px/1.5 sans-serif;
+    padding-top: 4%;
+    text-align: center
+}
+@media screen and (width<992px){
+    .example-wrapper{
+        width: 100%
+    }
+}
+@media screen and (width>=992px){
+    .example-wrapper{
+        width: 60vw
+    }
+}
+
+.example-wrapper code {
+    background: #F5F5F5;
+    padding: 2px 6px;}
 
 
 button {

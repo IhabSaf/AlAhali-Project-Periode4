@@ -93,6 +93,8 @@ var myLineChart = new Chart(ctx, {
             legend: {
                 display: false
             },
+        responsive: true,
+        maintainAspectRatio: false,
         tooltips: {
             callbacks: {
                 title: function(tooltipItem) {

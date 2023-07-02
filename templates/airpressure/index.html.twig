@@ -11,24 +11,21 @@
 
     <div class="example-wrapper">
 
-        <div class="example-wrapper">
-            <div class="card mb-4">
-                <button  name="reload_button" onclick="location.reload()">
-                    Fetch new data
-                </button>
-                    <div class="card-header">
-                        Last measured air pressure
-                    </div>
-
-                    <div class="card-body" >
-                        <canvas id="myStpChart"></canvas>
-                    </div>
-
+        <div class="card mb-4">
+            <button  name="reload_button" onclick="location.reload()">
+                Fetch new data
+            </button>
+            <div class="card-header">
+                Last measured air pressure
             </div>
+
+            <div class="card-body">
+                <canvas id="myStpChart"></canvas>
+            </div>
+
         </div>
+
         <button name="table-data-button-low"  id="button-pressure-low" >Show air pressure in table</button>
-        <div class="example-wrapper">
-        </div>
         <div id="table-data-highStp">
             <table class="table">
                 <tr>
@@ -44,11 +41,10 @@
                     <td>{{ item.timestamp|date('Y-m-d H:i:s') }}</td>
                 </tr>
             {% endfor %}
-        </table>
+            </table>
         </div>
 
     </div>
 
-        <script src="assets/demo/airPressure.js"></script>
-
+    <script src="assets/demo/airPressure.js"></script>
 {% endblock %}

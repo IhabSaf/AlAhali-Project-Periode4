@@ -92,6 +92,8 @@ var myLineChart = new Chart(ctx, {
                 }
             }],
         },
+        responsive: true,
+        maintainAspectRatio: false,
         legend: {
             display: true
         },

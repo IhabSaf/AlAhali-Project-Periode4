@@ -47,8 +47,7 @@ class HistoricalDataController extends AbstractController
             for($i = 0; $i < $fourWeeks; $i++){
                 // Dataset below 990mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
-                $qb
-                    ->select('avg(m.stp) as stp')
+                $qb->select('avg(m.stp) as stp')
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
@@ -58,13 +57,11 @@ class HistoricalDataController extends AbstractController
                     ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
-                $query = $qb->getQuery();
-                $lowResults = $query->getResult();
+                $lowResults = $qb->getQuery()->getResult();
 
                 // Dataset above 1030mBar | Average of a single day
                 $qb = $entityManager->createQueryBuilder();
-                $qb
-                    ->select('avg(m.stp) as stp')
+                $qb->select('avg(m.stp) as stp')
                     ->from('App\Entity\Measurement', 'm')
                     ->where('m.timestamp < :today')
                     ->andWhere('m.timestamp > :yesterday')
@@ -74,33 +71,32 @@ class HistoricalDataController extends AbstractController
                     ->setParameter('yesterday', $this->yesterday($today)." 00:00:00")
                     ->setParameter('station_name', $data["stationName"])
                 ;
-                $query = $qb->getQuery();
-                $highResults = $query->getResult();
-                
+                $highResults = $qb->getQuery()->getResult();
+
                 // Put all data and dates in arrays to be sent to the template
-                $lowDataPerDay[$i] = $lowResults[0];
-                $highDataPerDay[$i] = $highResults[0];
+                $lowDataPerDay[$i] = $this->roundMeasurement($lowResults);
+                $highDataPerDay[$i] = $this->roundMeasurement($highResults);
                 $today = $this->yesterday($today);
                 $dates[$i] = $this->dayMonthFormat($today);
                 $split = explode('-', $today);
                 $days[$i] = $split[2];
                 $months[$i] = $split[1];
-                }
-
-                // Render page with data
-                return $this->render('historical_data/index.html.twig', [
-                    'controller_name' => 'HistoricalDataController',
-                    'form' => $form->createView(),
-                    'selected_station' => $data["stationName"],
-                    'formFilled' => true,
-                    // All arrays are reversed so the data is shown left to right according to date
-                    'lowFormData' => array_reverse($lowDataPerDay),
-                    'highFormData' => array_reverse($highDataPerDay),
-                    'formDays' => array_reverse($days),
-                    'formMonths' => array_reverse($months),
-                    'formDates' => array_reverse($dates)
-                ]);
             }
+
+            // Render page with data
+            return $this->render('historical_data/index.html.twig', [
+                'controller_name' => 'HistoricalDataController',
+                'form' => $form->createView(),
+                'selected_station' => $data["stationName"],
+                'formFilled' => true,
+                // All arrays are reversed so the data is shown left to right according to date
+                'lowFormData' => array_reverse($lowDataPerDay),
+                'highFormData' => array_reverse($highDataPerDay),
+                'formDays' => array_reverse($days),
+                'formMonths' => array_reverse($months),
+                'formDates' => array_reverse($dates)
+            ]);
+        }
             
             // Render page without data
             return $this->render('historical_data/index.html.twig', [
@@ -110,6 +106,18 @@ class HistoricalDataController extends AbstractController
                 'formFilled' => false
             ]
         );
+    }
+
+    private function roundMeasurement($measurement): array
+    {
+        $floatValue = $measurement[0];
+        if($floatValue['stp'] != null) {
+            $roundedVal = round($floatValue['stp'], 1);
+        } else {
+            $roundedVal = null;
+        }
+        $arr['stp'] = $roundedVal;
+        return $arr;
     }
 
     /**
@@ -197,8 +205,8 @@ class HistoricalDataController extends AbstractController
 
 
             // Put all data and dates in arrays to be sent to the template
-            $lowDataPerDay[$i] = $lowResults[0];
-            $highDataPerDay[$i] = $highResults[0];
+            $lowDataPerDay[$i] = $this->roundMeasurement($lowResults);
+            $highDataPerDay[$i] = $this->roundMeasurement($highResults);
             $today = $this->yesterday($today);
             $dates[$i] = $this->dayMonthFormat($today);
             $split = explode('-', $today);

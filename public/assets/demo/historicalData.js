@@ -1,4 +1,4 @@
-console.log("print this");
+// console.log("print this");
 
 const stationDataHigh = []
 for (const key in highStps) {
@@ -9,7 +9,7 @@ for (const key in highStps) {
 }
 const stpHigh = Object.keys(stationDataHigh).map((key) => stationDataHigh[key].stp);
 for(let i = 0; i < stpHigh.length; i++){stpHigh[i] = (stpHigh[i] === null ? 0 : stpHigh[i]);}
-console.log(stpHigh)
+// console.log(stpHigh)
 
 const stationDataLow = []
 for (const key in lowStps) {
@@ -20,7 +20,7 @@ for (const key in lowStps) {
 }
 const stpLow = Object.keys(stationDataLow).map((key) => stationDataLow[key].stp);
 for(let i = 0; i < stpLow.length; i++){stpLow[i] = (stpLow[i] === null ? 0 : stpLow[i]);}
-console.log(stpLow);
+// console.log(stpLow);
 
 // SETUP BLOCK
 // const labels = [];

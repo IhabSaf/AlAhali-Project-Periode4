@@ -1,3 +1,109 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #212529;
+    color: #fff;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    width: 68px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 10px;
+}
+
+.nav-link {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+    padding: 10px;
+    border: 1px solid transparent;
+}
+
+.nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #212529;
+    min-width: 200px;
+    z-index: 1;
+}
+
+.dropdown-menu a {
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #495057;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.toggle-btn {
+    display: inline;
+    top: 10px;
+    left: 10px;
+    float: right;
+    background-color: #212529;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 9999;
+    margin-right: 10px;
+}
+
+
 .fake-nav-bar {
     height: 56px;
     width: 100vw;
@@ -18,6 +124,13 @@
     .fake-nav-bar {
         display: none;
     }
+    .navbar-code1 {
+        display: none;
+    }
+
+    .navbar-code2 {
+        display: block;
+    }
 }
 
 @media screen and (width >= 992px) {
@@ -26,5 +139,12 @@
     }
     .fake-nav-bar {
         display: block;
+    }
+    .navbar-code1 {
+        display: block;
+    }
+
+    .navbar-code2 {
+        display: none;
     }
 }

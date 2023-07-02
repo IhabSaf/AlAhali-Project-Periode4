@@ -23,10 +23,10 @@ class CloudinessController extends AbstractController
 
         // hour_now is the year-month-day and hour of right now
         // hour_behind is the year-month-day and hour. The data within 59minute and 59 seconds of the hour_now hour will be given
-        $hour_now = date('Y-m-d H:');
-        $hour_now = $hour_now.'00:00';
-        $hour_behind = date('Y-m-d H:');
-        $hour_behind = $hour_behind.'59:59';
+        $hour_now = date('Y-m-d ');
+        $hour_now = $hour_now.'00:00:00';
+        $hour_behind = date('Y-m-d ');
+        $hour_behind = $hour_behind.'23:59:59';
 
         $qb = $entityManager->createQueryBuilder();
         $qb->select(' s.stationName','m.cldc', 'm.timestamp')

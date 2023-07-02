@@ -42,7 +42,7 @@ body {
 
 .nav-link {
     position: relative;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
     transition: 0.3s;
     padding: 10px;

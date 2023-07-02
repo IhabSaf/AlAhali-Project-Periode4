@@ -135,24 +135,24 @@
                     <a class="nav-link" href="{{ path('app_dashboard') }}">World map</a>
                 </li>
                 {% if  app.user and app.user.admin == 1 %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" onclick="toggleDropdown(event)">User Control Panel</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('app_registration') }}">Add User</a></li>
-                            <li><a href="{{ path('app_remove_user') }}">User Management</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_registration') }}">Add User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"href="{{ path('app_remove_user') }}">User Management</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_historical_data') }}">Historical data</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" onclick="toggleDropdown(event)">Real-time data</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('app_cloudiness') }}">Cloudiness</a></li>
-                        <li><a href="{{ path('app_airpressure') }}">Air pressure</a></li>
-                    </ul>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_cloudiness') }}">Cloudiness</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_airpressure') }}">Air pressure</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('download_xml_four_weeks') }}">Download xml file</a>
                 </li>

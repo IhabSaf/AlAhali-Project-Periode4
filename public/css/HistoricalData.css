@@ -17,9 +17,9 @@
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .chart-container {
-    border: 1px solid black; /* Set the border style */
+    border: 1px solid rgba(0, 0, 0, 0.66); /* Set the border style */
     padding: 10px; /* Add some padding to the container if desired */
-    border-radius: 2%;
+    border-radius: 15px;
 }
 #historical_station_select_Submit:hover {
     transition: 0.7s;
@@ -27,20 +27,36 @@
 }
 
 #historical_station_select_Submit {
-    float: left;
     margin-right: 1vw;
-
 }
 #current-station {
     padding:1%;
     float: left;
-
 }
+
+#historical_station_select_stationName {
+    align-content: center;
+    padding: 0.5em 1em;
+    font-size: 16px;
+    background-color: #5b6565;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    border-radius:10px;
+    min-height:30px;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 .chart-buttons-wrapper {
-
+    justify-content: center;
+}
+#historical_station_select {
     display: grid;
-    justify-content: left;
-
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 1em;
+    justify-content: center;
 }
 .chart-wrapper {
     display: grid;

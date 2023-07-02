@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HistoricalDataController!{% endblock %}
 
 {% block body %}
 
@@ -11,7 +10,6 @@
     <div class="example-wrapper">
         <div class="chart-buttons-wrapper">
             {{ form(form) }}
-            <p id="current-station">Current station: {{ selected_station }}</p>
         </div>
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
@@ -29,9 +27,7 @@
             </script>
             </div>
     </div>
-            <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
 
-
-
+    <script src="{{ asset('assets/demo/historicalData.js') }}"></script>
 
 {% endblock %}

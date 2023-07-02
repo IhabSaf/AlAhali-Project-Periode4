@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="icon" href="https://ahli.com/wp-content/uploads/2019/08/ahli-logo.png">
     <link href="{{ asset('css/stylesdash.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/fakeNavBar.css') }}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 
     <title>Dashboard</title>
@@ -29,9 +30,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #343a40;
+            background-color: #212529;
             color: #fff;
-            padding: 10px 20px;
+            padding: 0;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         .navbar-brand {
@@ -44,7 +47,7 @@
         .navbar-brand img {
             width: 68px;
             height: 50px;
-            margin-right: 10px;
+            margin-left: 10px;
         }
 
         .navbar-nav {
@@ -86,7 +89,7 @@
         .dropdown-menu {
             display: none;
             position: absolute;
-            background-color: #343a40;
+            background-color: #212529;
             min-width: 200px;
             z-index: 1;
         }
@@ -108,37 +111,37 @@
         }
 
         .toggle-btn {
-            display: none;
-            position: fixed;
+            display: inline;
             top: 10px;
             left: 10px;
-            background-color: #343a40;
+            float: right;
+            background-color: #212529;
             color: #fff;
             border: none;
             padding: 10px;
             cursor: pointer;
             z-index: 9999;
+            margin-right: 10px;
         }
 
-
-
-            @media screen and (width < 992px) {
+        @media screen and (width < 992px) {
             .navbar-code1 {
                 display: none;
             }
+
             .navbar-code2 {
                 display: block;
             }
         }
 
-            @media screen and (width >= 992px) {
+        @media screen and (width >= 992px) {
             .navbar-code1 {
                 display: block;
             }
+
             .navbar-code2 {
                 display: none;
             }
-
         }
     </style>
 </head>
@@ -151,7 +154,6 @@
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="/dashboard"><img src="https://ahli.com/wp-content/uploads/2019/08/ahli-logo.png" width="68" height="50" alt="logo"></a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -246,76 +248,76 @@
 
 <!-- Navbar Code 2 -->
 <nav class="navbar-code2">
-
-    <button class="toggle-btn" onclick="toggleNavbar()"><i class="fas fa-bars"></i> Menu</button>
-
     <nav class="navbar">
-
         <!-- Navbar Brand -->
         <a class="navbar-brand" href="/dashboard">
             <img src="https://ahli.com/wp-content/uploads/2019/08/ahli-logo.png" alt="logo">
-
         </a>
-
+        <button class="toggle-btn" onclick="toggleNavbar()"><i class="fas fa-bars"></i></button>
         <!-- Navbar Items -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_dashboard') }}">World map</a>
-            </li>
-
-            {% if  app.user and app.user.admin == 1 %}
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_dashboard') }}">World map</a>
+                </li>
+                {% if  app.user and app.user.admin == 1 %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" onclick="toggleDropdown(event)">User Control Panel</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('app_registration') }}">Add User</a></li>
+                            <li><a href="{{ path('app_remove_user') }}">User Management</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_historical_data') }}">Historical data</a>
+                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" onclick="toggleDropdown(event)">User Control Panel</a>
+                    <a class="nav-link" href="#" onclick="toggleDropdown(event)">Real-time data</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('app_registration') }}">Add User</a></li>
-                        <li><a href="{{ path('app_remove_user') }}">User Management</a></li>
+                        <li><a href="{{ path('app_cloudiness') }}">Cloudiness</a></li>
+                        <li><a href="{{ path('app_airpressure') }}">Air pressure</a></li>
                     </ul>
                 </li>
-            {% endif %}
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_historical_data') }}">Historical data</a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" onclick="toggleDropdown(event)">Real-time data</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('app_cloudiness') }}">Cloudiness</a></li>
-                    <li><a href="{{ path('app_airpressure') }}">Air pressure</a></li>
-                </ul>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('download_xml_four_weeks') }}">Download xml file</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
-            </li>
-        </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('download_xml_four_weeks') }}">Download xml file</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-
 </nav>
+
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/simple-datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script>
-    // Toggle navbar for responsive mode
-    function toggleNavbar() {
-        const navbar2 = document.querySelector(".navbar-code2");
-        navbar2.classList.toggle("show");
-    }
+    // // Toggle navbar for responsive mode
+    // function toggleNavbar() {
+    //     const navbar2 = document.querySelector(".navbar-code2");
+    //     navbar2.classList.toggle("show");
+    // }
+    //
+    // // Toggle dropdown menu
+    // function toggleDropdown(event) {
+    //     event.preventDefault();
+    //     const dropdown = event.target.nextElementSibling;
+    //     dropdown.style.display = dropdown.style.display === "fixed" ? "none" : "fixed";
+    // }
 
-    // Toggle dropdown menu
-    function toggleDropdown(event) {
-        event.preventDefault();
-        const dropdown = event.target.nextElementSibling;
-        dropdown.style.display = dropdown.style.display === "fixed" ? "none" : "fixed";
+    function toggleNavbar() {
+        const navbarCollapse = document.getElementById("navbarCollapse");
+        navbarCollapse.classList.toggle("show");
     }
 </script>
-
-{% block body %}{% endblock %}
+<div class="fake-nav-bar"></div>
+<div class="content-fake-side-bar-top-grid">
+    <div class="fake-side-bar"></div>
+    {% block body %}{% endblock %}
+</div>
 {% block javascripts %}{% endblock %}
 
 </body>

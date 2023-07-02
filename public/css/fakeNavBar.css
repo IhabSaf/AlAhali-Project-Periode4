@@ -15,10 +15,16 @@
     .content-fake-side-bar-top-grid {
         grid-template-columns: 0 1fr;
     }
+    .fake-nav-bar {
+        display: none;
+    }
 }
 
 @media screen and (width >= 992px) {
     .content-fake-side-bar-top-grid {
         grid-template-columns: 225px 1fr;
+    }
+    .fake-nav-bar {
+        display: block;
     }
 }

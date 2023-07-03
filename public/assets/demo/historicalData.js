@@ -46,7 +46,10 @@ const data = {
 const config = {
     type: 'line',
     data,
-    options: {}
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+    }
 };
 
 // RENDER BLOCK

@@ -23,7 +23,7 @@ class HistoricalStationSelectType extends AbstractType {
         $builder
             ->add('stationName', ChoiceType::class, [
                 'choices' => [
-                    'Choose a station' => 'No station selected',
+                    'Choose' => 'No station selected',
                     'choices' => $choices
                     ],
             ])

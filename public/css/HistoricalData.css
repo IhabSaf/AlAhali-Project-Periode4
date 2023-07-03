@@ -84,3 +84,17 @@
 
 }
 
+@media screen and (width < 992px) {
+    .chart-container {
+        width: 100%;
+        min-height: 400px;
+    }
+}
+
+@media screen and (width < 450px) {
+
+    #historical_station_select {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
